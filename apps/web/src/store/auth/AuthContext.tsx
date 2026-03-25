@@ -1,7 +1,6 @@
 import { createContext } from 'react';
 
 import type { CredentialResponse } from '@react-oauth/google';
-
 import type { CredentialResponseData } from '../../types/authTypes';
 
 export interface AuthDataContext {
@@ -13,6 +12,6 @@ export interface AuthDataContext {
 
 export const AuthContext = createContext<AuthDataContext>({
   token: null,
-  cleanToken: function (): void {},
-  handleSuccess: function (): void {}
+  cleanToken: function (): void { /* empty */ },
+  handleSuccess: function (): void {/* empty */ }
 });
