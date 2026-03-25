@@ -1,17 +1,17 @@
 const getHash = (): string | null => {
-  if(localStorage.getItem('token')){
-    return localStorage.getItem('token')
-  }else {
-     return null;
-    } 
-}
+  if (localStorage.getItem('token')) {
+    return localStorage.getItem('token');
+  } else {
+    return null;
+  }
+};
 
 const setHash = (hash: string): void => {
-    localStorage.setItem('token', hash)
-}
+  localStorage.setItem('token', hash);
+};
 
 const removeHash = (): void => {
-    localStorage.removeItem('token')
-}
+  localStorage.removeItem('token');
+};
 
-export { getHash, setHash, removeHash }
+export { getHash, setHash, removeHash };

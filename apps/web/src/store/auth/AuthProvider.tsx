@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from './AuthContext';
-import {getHash, setHash, removeHash} from "../../share/helpers/tokenHash"
+import { getHash, setHash, removeHash } from '../../share/helpers/tokenHash';
 import { ROUTES } from '../../share/routes';
 import type { CredentialResponseData } from '../../types/authTypes';
 interface AuthProviderProps {
@@ -33,17 +33,18 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
-      const setupToken =  () => {
-        const credentialHash = getHash();
-        if (credentialHash) {
-          const decodedToken: CredentialResponseData = jwtDecode<CredentialResponseData>(credentialHash);
-          setUserData(decodedToken);
-        } else {
-          navigate(ROUTES.LOGIN);
-        }
+    const setupToken = () => {
+      const credentialHash = getHash();
+      if (credentialHash) {
+        const decodedToken: CredentialResponseData =
+          jwtDecode<CredentialResponseData>(credentialHash);
+        setUserData(decodedToken);
+      } else {
+        navigate(ROUTES.LOGIN);
       }
-      setupToken();
-  }, [])
+    };
+    setupToken();
+  }, []);
 
   return (
     <AuthContext.Provider value={{ token: userData, cleanToken, handleSuccess }}>

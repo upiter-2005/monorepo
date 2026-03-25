@@ -6,8 +6,6 @@ import { useAuth } from '../hooks/useAuth';
 const Home: React.FC = () => {
   const { token } = useAuth();
 
-
-
   return (
     <Container maxWidth="md">
       <Box

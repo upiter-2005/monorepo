@@ -6,12 +6,15 @@ import type { CredentialResponseData } from '../../types/authTypes';
 export interface AuthDataContext {
   token: CredentialResponseData | null;
   cleanToken: () => void;
-  handleSuccess: (credentialResponseData: CredentialResponse) => void
+  handleSuccess: (credentialResponseData: CredentialResponse) => void;
 }
-
 
 export const AuthContext = createContext<AuthDataContext>({
   token: null,
-  cleanToken: function (): void { /* empty */ },
-  handleSuccess: function (): void {/* empty */ }
+  cleanToken: function (): void {
+    /* empty */
+  },
+  handleSuccess: function (): void {
+    /* empty */
+  },
 });

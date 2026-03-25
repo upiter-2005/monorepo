@@ -11,8 +11,6 @@ import { AuthProvider } from './store/auth/AuthProvider';
 
 const clientIdAuth = import.meta.env.VITE_CLIENT_ID;
 
-
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <GoogleOAuthProvider clientId={clientIdAuth}>
@@ -22,5 +20,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </AuthProvider>
       </BrowserRouter>
     </GoogleOAuthProvider>
-  </StrictMode>
+  </StrictMode>,
 );
