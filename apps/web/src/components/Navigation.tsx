@@ -8,18 +8,32 @@ const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation();
   return (
     <Toolbar>
-      <Box sx={{ display: 'flex', gap: 2 }}>
-        <Button color="primary" component={Link} to={ROUTES.HOME}>
+      <Box className="flex gap-2">
+        <Button
+          className="bg-blue-500 hover:bg-blue-100 px-4 py-2"
+          component={Link}
+          to={ROUTES.HOME}
+        >
           {t('home')}
         </Button>
-        <Button color="primary" component={Link} to={ROUTES.LOGIN}>
+        <Button
+          className="bg-blue-500 hover:bg-blue-100 px-4 py-2"
+          component={Link}
+          to={ROUTES.LOGIN}
+        >
           {t('login')}
         </Button>
-        <Button color="primary" onClick={() => i18n.changeLanguage('en')}>
+        <Button
+          className="bg-blue-500 hover:bg-blue-100 px-4 py-2"
+          onClick={() => i18n.changeLanguage('en')}
+        >
           {t('en')}
         </Button>
 
-        <Button color="primary" onClick={() => i18n.changeLanguage('uk')}>
+        <Button
+          className="bg-blue-500 hover:bg-blue-100 px-4 py-2"
+          onClick={() => i18n.changeLanguage('uk')}
+        >
           {t('ua')}
         </Button>
       </Box>

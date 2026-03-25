@@ -3,19 +3,13 @@ import { Box, CardMedia, Typography } from '@mui/material';
 import LogoutBtn from './LogoutButton';
 import type { CredentialResponseData } from '../types/authTypes';
 
-interface UserData {
+interface UserDataToken {
   decodeData: CredentialResponseData;
 }
 
-const UserData: React.FC<UserData> = ({ decodeData }) => {
+const UserData: React.FC<UserDataToken> = ({ decodeData }) => {
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
+    <Box className="flex flex-col items-center gap-2">
       <Typography variant="h4" gutterBottom>
         {decodeData.family_name} {decodeData.given_name}
       </Typography>

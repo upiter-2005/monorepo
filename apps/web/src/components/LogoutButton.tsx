@@ -7,7 +7,11 @@ const LogoutButton: React.FC = () => {
   const { cleanToken } = useAuth();
   const { t } = useTranslation();
 
-  return <Button onClick={cleanToken}>{t('logout')}</Button>;
+  return (
+    <Button onClick={cleanToken} className="!bg-gray-500 !text-white hover:!bg-gray-300 px-4 py-2">
+      {t('logout')}
+    </Button>
+  );
 };
 
 export default LogoutButton;

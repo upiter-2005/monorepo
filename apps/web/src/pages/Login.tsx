@@ -16,15 +16,8 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <Container maxWidth="md">
-        <Box
-          sx={{
-            minHeight: '100vh',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
-        >
+      <Container className="max-w-[1200px] w-full m-auto">
+        <Box className="flex justify-center items-center min-h-[100vh]">
           <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
         </Box>
       </Container>
