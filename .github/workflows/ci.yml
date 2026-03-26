@@ -23,7 +23,7 @@ jobs:
         run: npm ci
 
       - name: Prettier check
-        run: nx format:check
+        run: npx nx format:check
 
       - name: Run ESLint from NX
         run: npx nx run-many --target=lint --all
