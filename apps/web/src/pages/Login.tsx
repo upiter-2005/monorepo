@@ -6,6 +6,8 @@ import { GoogleLogin } from '@react-oauth/google';
 import CustomizedSnackbars from '../components/Notification';
 import { useAuth } from '../hooks/useAuth';
 
+const HOST = import.meta.env.VITE_HOST_API;
+
 const Login: React.FC = () => {
   const { handleSuccess } = useAuth();
   const [openError, setOpenError] = useState(false);
@@ -16,7 +18,7 @@ const Login: React.FC = () => {
   };
 
   const fetchFromNest = async () => {
-    const response = await fetch('http://localhost:3000/api');
+    const response = await fetch(`${HOST}/api`);
     const data = await response.json();
     setFetchData(data);
     console.log(data);
