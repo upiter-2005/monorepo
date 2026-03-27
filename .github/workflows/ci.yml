@@ -3,7 +3,7 @@ name: Lint
 on:
   push:
     branches:
-      - dev/migrate-react-app
+      - dev/without-ssh
 
 jobs:
   lint:
