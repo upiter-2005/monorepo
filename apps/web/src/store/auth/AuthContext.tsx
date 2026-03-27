@@ -1,8 +1,7 @@
 import { createContext } from 'react';
 
+import type { CredentialResponseData } from '@org/types';
 import type { CredentialResponse } from '@react-oauth/google';
-
-import type { CredentialResponseData } from '../../types/authTypes';
 
 export interface AuthDataContext {
   token: CredentialResponseData | null;

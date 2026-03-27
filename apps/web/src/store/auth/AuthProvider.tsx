@@ -1,14 +1,14 @@
 import { useEffect, useState, type ReactNode } from 'react';
 
+import type { CredentialResponseData } from '@org/types';
 import type { CredentialResponse } from '@react-oauth/google';
 import { googleLogout } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from './AuthContext';
-import { getHash, setHash, removeHash } from '../../share/helpers/tokenHash';
+import { getToken, setToken, removeToken } from '../../share/helpers/token';
 import { ROUTES } from '../../share/routes';
-import type { CredentialResponseData } from '../../types/authTypes';
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const cleanToken = () => {
     googleLogout();
-    removeHash();
+    removeToken();
     navigate(ROUTES.LOGIN);
   };
 
@@ -27,14 +27,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const crd = credentialResponseData.credential;
     if (crd) {
       const decoded: CredentialResponse = jwtDecode(crd);
-      setHash(crd);
+      setToken(crd);
       if (decoded) navigate(ROUTES.HOME);
     }
   };
 
   useEffect(() => {
     const setupToken = () => {
-      const credentialHash = getHash();
+      const credentialHash = getToken();
       if (credentialHash) {
         const decodedToken: CredentialResponseData =
           jwtDecode<CredentialResponseData>(credentialHash);
