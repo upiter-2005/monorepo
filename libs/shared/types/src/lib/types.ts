@@ -5,3 +5,17 @@ export interface CredentialResponseData {
   name?: string;
   picture?: string;
 }
+
+export interface User {
+  id: string;
+  email: string;
+  role: 'admin' | 'user';
+  firstName: string;
+  lastName: string;
+  fullName: string;
+  avatarUrl: string;
+  provider: string;
+  providerId: string;
+  createdAt: string;
+  lastLoginAt: string;
+}
