@@ -4,5 +4,7 @@ export default {
   logout: 'Вихід',
   en: 'англ',
   ua: 'укр',
-  loginFailed: 'Login Failed!',
+  loginFailed: 'Помилка входу!',
+  users: 'Користувачі',
+  user_list: 'Список Користувачів',
 };
