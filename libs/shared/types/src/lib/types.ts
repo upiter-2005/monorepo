@@ -14,8 +14,6 @@ export interface User {
   lastName: string;
   fullName: string;
   avatarUrl: string;
-  provider: string;
-  providerId: string;
   createdAt: string;
   lastLoginAt: string;
 }

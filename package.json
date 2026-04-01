@@ -69,17 +69,21 @@
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/platform-express": "^11.0.0",
+    "@nestjs/typeorm": "^11.0.0",
     "@react-oauth/google": "^0.13.4",
     "axios": "^1.6.0",
+    "class-validator": "^0.15.1",
     "i18next": "^25.8.18",
     "jwt-decode": "^4.0.0",
+    "pg": "^8.20.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^16.5.8",
     "react-router-dom": "^7.13.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
-    "sass": "^1.98.0"
+    "sass": "^1.98.0",
+    "typeorm": "^0.3.28"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,json,css,scss,md}": "prettier --write"

@@ -2,8 +2,7 @@ name: Lint
 
 on:
   push:
-    branches:
-      - dev/without-ssh
+
 
 jobs:
   lint:

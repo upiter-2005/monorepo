@@ -7,11 +7,13 @@ const Users: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    // ###### Separate to helpers?
+    // custom hook add useUsers
+    // check auth user
+    //
     const getUsers = async () => {
       const response = await fetch('http://localhost:3000/api/users');
       const data = await response.json();
-      setUsers(data);
+      return data;
     };
 
     getUsers();
@@ -22,9 +24,10 @@ const Users: React.FC = () => {
       <h1>t{'user_list'}</h1>
       <Box className="flex justify-center items-center min-h-[100vh]">
         <ul>
-          {users.map((user) => (
+          {users?.map((user) => (
             <li>{user.email}</li>
           ))}
+          <li>pavel470245@gmail.com</li>
         </ul>
       </Box>
     </Container>
