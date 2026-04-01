@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navigation';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Users from './pages/Users';
 import { ROUTES } from './share/routes';
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path={ROUTES.HOME} element={<Home />} />
         <Route path={ROUTES.LOGIN} element={<Login />} />
+        <Route path={ROUTES.USERS} element={<Users />} />
       </Routes>
     </div>
   );
