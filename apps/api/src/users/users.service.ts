@@ -13,20 +13,6 @@ export class UsersService {
 
   findAll() {
     return this.userRepository.find();
-    // return [
-    //     {
-    //         name: 'Stiv',
-    //         age: 20
-    //     },
-    //     {
-    //         name: 'Bob',
-    //         age: 30
-    //     },
-    //     {
-    //         name: 'Pasha',
-    //         age: 34
-    //     }
-    // ];
   }
 
   createUser(body: any) {

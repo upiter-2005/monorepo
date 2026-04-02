@@ -8,7 +8,7 @@ import {
 
 @Entity()
 export class Users {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ type: 'varchar' })
@@ -30,8 +30,8 @@ export class Users {
   avatarUrl?: string;
 
   @CreateDateColumn()
-  createdAt?: string;
+  createdAt?: Date;
 
-  @UpdateDateColumn({ type: 'varchar' })
-  lastLoginAt?: string;
+  @UpdateDateColumn()
+  lastLoginAt?: Date;
 }
