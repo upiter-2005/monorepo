@@ -17,8 +17,8 @@ export class Users {
   @Column({ type: 'varchar' })
   role: 'admin' | 'user';
 
-  @Column({ type: 'varchar' })
-  firstName: string;
+  @Column({ type: 'varchar', nullable: true })
+  firstName?: string;
 
   @Column({ type: 'varchar', nullable: true })
   lastName?: string;

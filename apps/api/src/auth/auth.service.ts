@@ -14,7 +14,7 @@ export class AuthService {
   ) {}
 
   async login(dto: AuthDto): Promise<Users> {
-    const { email, firstName } = dto;
+    const { email } = dto;
 
     let user = await this.userRepository.findOneBy({ email });
 
@@ -25,7 +25,6 @@ export class AuthService {
 
     user = this.userRepository.create({
       email,
-      firstName,
       role: 'user',
     });
 
