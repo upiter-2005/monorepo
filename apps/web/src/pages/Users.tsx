@@ -1,8 +1,9 @@
 import { Container } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
-import { useGetUsers } from '../hooks/useGetUsers';
-import { UsersPagination } from '../components/UsersPagination';
 import { t } from 'i18next';
+
+import { UsersPagination } from '../components/UsersPagination';
+import { useGetUsers } from '../hooks/useGetUsers';
 
 const Users: React.FC = () => {
   const { data, meta, params, fetchUsers } = useGetUsers();

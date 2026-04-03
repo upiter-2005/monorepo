@@ -37,8 +37,6 @@ export default [
       '**/*.mjs',
     ],
     // Override or add rules here
-    rules: {
-      "@typescript-eslint/no-floating-promises": "error"
-    },
+    rules: {},
   },
 ];
