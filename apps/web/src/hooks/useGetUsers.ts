@@ -1,4 +1,3 @@
-// hooks/useUsers.ts
 import { useEffect, useState, useCallback } from 'react';
 
 import { User } from '@org/types';
