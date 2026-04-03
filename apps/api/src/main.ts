@@ -5,7 +5,12 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://monorepo-api-rho.vercel.app'],
+    origin: [
+      'http://monorepo-frontend:4200',
+      'http://frontend:4200',
+      'http://localhost:4200',
+      'https://monorepo-api-rho.vercel.app',
+    ],
     credentials: true,
   });
   const globalPrefix = 'api';
