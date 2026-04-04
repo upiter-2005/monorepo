@@ -1,16 +1,10 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 
-import { User } from '@org/types';
+import { Params, User } from '@org/types';
 
-type Params = {
-  page?: number;
-  limit?: number;
-  search?: string;
-  sortBy?: 'createdAt' | 'lastLoginAt';
-  order?: 'ASC' | 'DESC';
-};
+import { concatQueryString } from '../helpers/concatQueryString';
 
-type MetaData = {
+type PaginationData = {
   total: number;
   page: number;
   limit: number;
@@ -24,59 +18,44 @@ export const useGetUsers = (initialParams: Params = {}) => {
     ...initialParams,
   });
 
-  const [data, setData] = useState<User[] | null>(null);
-  const [meta, setMeta] = useState<MetaData | null>(null);
+  const [users, setUsers] = useState<User[] | null>(null);
+  const [pagination, setPagination] = useState<PaginationData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchUsers = useCallback(
-    async (overrideParams?: Params) => {
-      try {
-        setLoading(true);
-        setError(null);
+  const fetchUsers = async (query?: string) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch(`http://localhost:3000/api/users?${query}`);
+      const data = await response.json();
+      setUsers(data.data);
+      setPagination(data.meta);
+      setLoading(false);
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
 
-        const finalParams = { ...params, ...overrideParams };
-
-        const query = new URLSearchParams(
-          Object.entries(finalParams).reduce(
-            (acc, [key, value]) => {
-              if (value !== undefined) acc[key] = String(value);
-              return acc;
-            },
-            {} as Record<string, string>,
-          ),
-        ).toString();
-
-        const response = await fetch(`http://localhost:3000/api/users?${query}`);
-
-        if (!response.ok) {
-          setLoading(false);
-          throw new Error('Failed to fetch users');
-        }
-
-        const data = await response.json();
-        setData(data.data);
-        setMeta(data.meta);
-        setParams(finalParams);
-        setLoading(false);
-      } catch (err: any) {
-        setError(err.message);
-      }
-    },
-    [params],
-  );
+  const changeQuery = (params: Params): void => {
+    const finalParams = { ...params };
+    const query = concatQueryString(finalParams);
+    setParams(finalParams);
+    fetchUsers(query);
+  };
 
   useEffect(() => {
-    fetchUsers();
+    changeQuery(params);
   }, []);
 
   return {
-    data,
-    meta,
+    data: users,
+    pagination,
     loading,
     error,
     params,
     setParams,
+    changeQuery,
     fetchUsers,
   };
 };

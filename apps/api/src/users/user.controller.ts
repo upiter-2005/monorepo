@@ -7,7 +7,7 @@ import { GetUsersDto } from '../dto/dto/get-users.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('')
+  @Get()
   findAll(@Query() query: GetUsersDto) {
     return this.usersService.fetchUsers(query);
   }

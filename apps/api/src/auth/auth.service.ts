@@ -1,4 +1,3 @@
-// auth.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -13,20 +12,21 @@ export class AuthService {
     private readonly userRepository: Repository<Users>,
   ) {}
 
-  async login(dto: AuthDto): Promise<Users> {
-    const { email } = dto;
+  async login(payload: AuthDto): Promise<Users> {
+    const { email } = payload;
 
     let user = await this.userRepository.findOneBy({ email });
+    const NOW = new Date();
 
     if (user) {
-      user.lastLoginAt = new Date();
-      return this.userRepository.save(user);
+      user.lastLoginAt = NOW;
+    } else {
+      user = this.userRepository.create({
+        email,
+        role: 'user',
+        lastLoginAt: NOW,
+      });
     }
-
-    user = this.userRepository.create({
-      email,
-      role: 'user',
-    });
 
     return this.userRepository.save(user);
   }

@@ -6,7 +6,7 @@ import { UsersPagination } from '../components/UsersPagination';
 import { useGetUsers } from '../hooks/useGetUsers';
 
 const Users: React.FC = () => {
-  const { data, meta, params, fetchUsers } = useGetUsers();
+  const { data, pagination, params, changeQuery } = useGetUsers();
 
   return (
     <Container className="max-w-[1200px] w-full m-auto">
@@ -14,7 +14,7 @@ const Users: React.FC = () => {
 
       <Select
         value={params.order || 'DESC'}
-        onChange={(e) => fetchUsers({ order: e.target.value, sortBy: 'createdAt' })}
+        onChange={(e) => changeQuery({ ...params, order: e.target.value, sortBy: 'createdAt' })}
       >
         <MenuItem value="DESC">Newest </MenuItem>
         <MenuItem value="ASC">Oldest </MenuItem>
@@ -27,11 +27,12 @@ const Users: React.FC = () => {
           ))}
         </ul>
       </div>
-      {meta && (
+
+      {pagination && (
         <UsersPagination
-          page={meta.page}
-          totalPages={meta.totalPages}
-          onChange={(val) => fetchUsers({ page: val })}
+          page={pagination.page}
+          totalPages={pagination.totalPages}
+          onChange={(val) => changeQuery({ ...params, page: val })}
         />
       )}
     </Container>
