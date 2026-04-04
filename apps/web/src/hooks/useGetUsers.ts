@@ -10,7 +10,7 @@ type Params = {
   order?: 'ASC' | 'DESC';
 };
 
-type MetaData = {
+type PaginationData = {
   total: number;
   page: number;
   limit: number;
@@ -25,7 +25,7 @@ export const useGetUsers = (initialParams: Params = {}) => {
   });
 
   const [data, setData] = useState<User[] | null>(null);
-  const [meta, setMeta] = useState<MetaData | null>(null);
+  const [pagination, setPagination] = useState<PaginationData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,7 +47,7 @@ export const useGetUsers = (initialParams: Params = {}) => {
           ),
         ).toString();
 
-        const response = await fetch(`http://localhost:3000/api/users?${query}`);
+        const response = await fetch(`http://127.0.0.1:3000/api/users?${query}`);
 
         if (!response.ok) {
           setLoading(false);
@@ -56,7 +56,7 @@ export const useGetUsers = (initialParams: Params = {}) => {
 
         const data = await response.json();
         setData(data.data);
-        setMeta(data.meta);
+        setPagination(data.meta);
         setParams(finalParams);
         setLoading(false);
       } catch (err: any) {
@@ -72,7 +72,7 @@ export const useGetUsers = (initialParams: Params = {}) => {
 
   return {
     data,
-    meta,
+    pagination,
     loading,
     error,
     params,

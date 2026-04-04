@@ -6,7 +6,7 @@ import { UsersPagination } from '../components/UsersPagination';
 import { useGetUsers } from '../hooks/useGetUsers';
 
 const Users: React.FC = () => {
-  const { data, meta, params, fetchUsers } = useGetUsers();
+  const { data, pagination, params, fetchUsers } = useGetUsers();
 
   return (
     <Container className="max-w-[1200px] w-full m-auto">
@@ -27,10 +27,10 @@ const Users: React.FC = () => {
           ))}
         </ul>
       </div>
-      {meta && (
+      {pagination && (
         <UsersPagination
-          page={meta.page}
-          totalPages={meta.totalPages}
+          page={pagination.page}
+          totalPages={pagination.totalPages}
           onChange={(val) => fetchUsers({ page: val })}
         />
       )}

@@ -1,3 +1,5 @@
+type Role = 'admin' | 'user';
+
 export interface CredentialResponseData {
   email?: string;
   family_name?: string;
@@ -9,7 +11,7 @@ export interface CredentialResponseData {
 export interface User {
   id: string;
   email: string;
-  role: 'admin' | 'user';
+  role: Role;
   firstName: string;
   lastName: string;
   fullName: string;
