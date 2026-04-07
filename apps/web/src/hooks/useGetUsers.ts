@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { Params, User } from '@org/types';
 
-import { createSearchParams } from '../helpers/createSearchParams';
 import { getUsers } from '../client/user';
+import { createSearchParams } from '../helpers/createSearchParams';
 
 type PaginationData = {
   total: number;

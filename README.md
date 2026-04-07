@@ -83,6 +83,7 @@ nx build api        # build backend
 nx build web        # build frontend
 
 nx lint             # run linter
+nx lint api --fix  # fix linter
 nx format:write     # auto format code
 nx format:check     # check formatting
 ```
