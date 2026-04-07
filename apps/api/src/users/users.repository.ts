@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
 import { Users } from './users.entity';
-import { GetUsersDto } from '../dto/dto/get-users.dto';
+import { Params } from '@org/types';
 import { UserCreateDTO } from './users.dto';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class UsersRepository extends Repository<Users> {
     super(Users, dataSource.createEntityManager());
   }
 
-  async findUsers(params: GetUsersDto) {
+  async findByParam(params: Params) {
     const { page, limit, search, sortBy, order } = params;
 
     const query = this.createQueryBuilder('user');
@@ -38,7 +38,7 @@ export class UsersRepository extends Repository<Users> {
     };
   }
 
-  async createNewUser(user: UserCreateDTO) {
+  async createUser(user: UserCreateDTO) {
     const newUser = this.create({
       email: user.email,
       role: user.role,

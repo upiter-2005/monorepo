@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Container, Typography } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
 import { t } from 'i18next';
 
@@ -10,7 +10,9 @@ const Users: React.FC = () => {
 
   return (
     <Container className="max-w-[1200px] w-full m-auto">
-      <h1 className="text-center ">{t('user_list')}</h1>
+      <Typography component="h1" className="text-center ">
+        {t('user_list')}
+      </Typography>
 
       <Select
         value={params.order || 'DESC'}

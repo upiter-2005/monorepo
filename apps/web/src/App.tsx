@@ -1,9 +1,9 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navigation';
-import Home from './pages/Home';
-import Login from './pages/Login';
-import Users from './pages/Users';
+import Home from './pages/HomePage';
+import Login from './pages/LoginPage';
+import Users from './pages/UsersPage';
 import { ROUTES } from './share/routes';
 
 function App() {

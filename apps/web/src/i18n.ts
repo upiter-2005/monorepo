@@ -1,9 +1,6 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-// import en from './share/locations/en';
-// import uk from './share/locations/uk';
-// import {resources} from "@org/tranlations";
 import en from './share/locations/en.json';
 import uk from './share/locations/uk.json';
 

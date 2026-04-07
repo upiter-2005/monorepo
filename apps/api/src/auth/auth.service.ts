@@ -16,15 +16,15 @@ export class AuthService {
     const { email } = payload;
 
     let user = await this.userRepository.findOneBy({ email });
-    const NOW = new Date();
+    const now = new Date();
 
     if (user) {
-      user.lastLoginAt = NOW;
+      user.lastLoginAt = now;
     } else {
       user = this.userRepository.create({
         email,
         role: 'user',
-        lastLoginAt: NOW,
+        lastLoginAt: now,
       });
     }
 
