@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { GetUsersDto } from '../dto/dto/get-users.dto';
 import { UsersRepository } from './users.repository';
-import { UserCreateDTO } from './users.dto';
+import { UserCreateDto } from './users.dto';
 
 @Injectable()
 export class UsersService {
@@ -12,7 +12,7 @@ export class UsersService {
     return usersData;
   }
 
-  async createUser(body: UserCreateDTO) {
+  async createUser(body: UserCreateDto) {
     const { email, role } = body;
     const user = await this.usersRepository.createUser({ email, role });
 

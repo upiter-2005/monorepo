@@ -5,9 +5,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import * as types from '@org/types';
 
 @Entity()
-export class Users {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: number;
 
@@ -15,7 +16,7 @@ export class Users {
   email: string;
 
   @Column({ type: 'varchar' })
-  role: 'admin' | 'user';
+  role: types.UserRole;
 
   @Column({ type: 'varchar', nullable: true })
   firstName?: string;

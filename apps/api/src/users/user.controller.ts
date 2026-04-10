@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { UserCreateDTO } from './users.dto';
+import { UserCreateDto } from './users.dto';
 import { GetUsersDto } from '../dto/dto/get-users.dto';
 
 @Controller('users')
@@ -9,11 +9,12 @@ export class UsersController {
 
   @Get()
   findAll(@Query() query: GetUsersDto) {
-    return this.usersService.fetchUsers(query);
+    const { page, limit, search, sortBy, order } = query;
+    return this.usersService.fetchUsers({ page, limit, search, sortBy, order });
   }
 
   @Post()
-  createUser(@Body() body: UserCreateDTO) {
-    return this.usersService.createUser(body);
+  createUser(@Body() payload: UserCreateDto) {
+    return this.usersService.createUser(payload);
   }
 }

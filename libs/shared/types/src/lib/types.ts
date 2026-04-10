@@ -6,7 +6,7 @@ export interface CredentialResponseData {
   picture?: string;
 }
 
-type UserRole = 'admin' | 'user';
+export type UserRole = 'admin' | 'user';
 
 export type User = {
   id: string;
@@ -21,8 +21,8 @@ export type User = {
 };
 
 export type Params = {
-  page?: number;
-  limit?: number;
+  page: number;
+  limit: number;
   search?: string;
   sortBy?: 'createdAt' | 'lastLoginAt';
   order?: 'ASC' | 'DESC';
