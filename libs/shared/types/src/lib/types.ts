@@ -7,6 +7,8 @@ export interface CredentialResponseData {
 }
 
 export type UserRole = 'admin' | 'user';
+export type SortBy = 'createdAt' | 'lastLoginAt';
+export type Order = 'ASC' | 'DESC';
 
 export type User = {
   id: string;
@@ -24,6 +26,6 @@ export type Params = {
   page: number;
   limit: number;
   search?: string;
-  sortBy?: 'createdAt' | 'lastLoginAt';
-  order?: 'ASC' | 'DESC';
+  sortBy?: SortBy;
+  order?: Order;
 };

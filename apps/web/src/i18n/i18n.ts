@@ -1,8 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import en from './share/locations/en.json';
-import uk from './share/locations/uk.json';
+import en from './locations/en.json';
+import uk from './locations/uk.json';
 
 const resources = {
   en: {

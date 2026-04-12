@@ -1,6 +1,6 @@
 import { Container, Box } from '@mui/material';
 
-import UserData from '../components/UserData';
+import UserData from '../components/users/UserData';
 import { useAuth } from '../hooks/useAuth';
 
 const Home: React.FC = () => {

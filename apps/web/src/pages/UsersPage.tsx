@@ -2,11 +2,12 @@ import { Container, Typography } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
 import { t } from 'i18next';
 
-import { UsersPagination } from '../components/UsersPagination';
-import { useGetUsers } from '../hooks/useGetUsers';
+import { UsersPagination } from '../components/users/UsersPagination';
+import { useUsers } from '../hooks/useUsers';
+import { UsersList } from '../components/users/UsersList';
 
 const Users: React.FC = () => {
-  const { data, pagination, params, changeQuery } = useGetUsers();
+  const { users, pagination, params, changeQuery } = useUsers();
 
   return (
     <Container className="max-w-[1200px] w-full m-auto">
@@ -22,13 +23,7 @@ const Users: React.FC = () => {
         <MenuItem value="ASC">Oldest </MenuItem>
       </Select>
 
-      <div className="flex justify-center items-center ">
-        <ul>
-          {data?.map((user) => (
-            <li key={user.id}>{user.email}</li>
-          ))}
-        </ul>
-      </div>
+      <UsersList users={users} />
 
       {pagination && (
         <UsersPagination

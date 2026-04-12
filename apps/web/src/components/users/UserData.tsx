@@ -1,7 +1,7 @@
 import { Box, CardMedia, Typography } from '@mui/material';
 import type { CredentialResponseData } from '@org/types';
 
-import LogoutBtn from './LogoutButton';
+import LogoutBtn from '../LogoutButton';
 
 interface UserDataToken {
   decodeData: CredentialResponseData;

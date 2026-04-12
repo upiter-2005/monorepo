@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 
 import { Params, User } from '@org/types';
 
-import { getUsers } from '../client/user';
+import { getUsers } from '../client/user.client';
 import { createSearchParams } from '../helpers/createSearchParams';
 
-type PaginationData = {
+type Pagination = {
   total: number;
   page: number;
   limit: number;
   totalPages: number;
 };
 
-export const useGetUsers = (initialParams: Params = {}) => {
+export const useUsers = (initialParams: Partial<Params> = {}) => {
   const [params, setParams] = useState<Params>({
     page: 1,
     limit: 3,
@@ -20,7 +20,12 @@ export const useGetUsers = (initialParams: Params = {}) => {
   });
 
   const [users, setUsers] = useState<User[]>([]);
-  const [pagination, setPagination] = useState<PaginationData | null>(null);
+  const [pagination, setPagination] = useState<Pagination>({
+    page: 1,
+    limit: 3,
+    total: 0,
+    totalPages: 0,
+  });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -34,8 +39,8 @@ export const useGetUsers = (initialParams: Params = {}) => {
       setUsers(data.data);
       setPagination(data.meta);
       setIsLoading(false);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Error fetch users');
     }
   };
 
@@ -51,7 +56,7 @@ export const useGetUsers = (initialParams: Params = {}) => {
   }, []);
 
   return {
-    data: users,
+    users,
     pagination,
     isLoading,
     error,
