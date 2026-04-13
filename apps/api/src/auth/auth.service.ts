@@ -8,25 +8,25 @@ import { UsersRepository } from '../users/users.repository';
 export class AuthService {
   constructor(
     private authRepository: AuthRepository,
-    private UsersRepository: UsersRepository,
+    private usersRepository: UsersRepository,
   ) {}
 
   async login(payload: AuthDto): Promise<User> {
     const { email } = payload;
 
-    let user = await this.authRepository.findExistUser(email);
-    const now = new Date();
+    let user = await this.authRepository.findByEmail(email);
+    const lastLoginAt = new Date();
 
     if (user) {
-      user.lastLoginAt = now;
+      user.lastLoginAt = lastLoginAt;
     } else {
-      user = await this.UsersRepository.createUser({
+      user = await this.usersRepository.createUser({
         email,
         role: 'user',
-        lastLoginAt: now,
+        lastLoginAt,
       });
     }
 
-    return this.UsersRepository.saveUser(user);
+    return this.usersRepository.saveUser(user);
   }
 }

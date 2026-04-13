@@ -11,6 +11,7 @@ export class UsersController {
   @Get()
   findAll(@Query() query: GetUsersDto) {
     const { page, limit, search, sortBy, order } = query;
+
     return this.usersService.fetchUsers({ page, limit, search, sortBy, order });
   }
 
@@ -20,11 +21,10 @@ export class UsersController {
 
     const user = await this.usersService.createUser({ email, role });
     if (!user) {
-      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('', HttpStatus.NOT_FOUND);
     }
     return {
       user,
-      status: HttpStatus.CREATED,
     };
   }
 }
