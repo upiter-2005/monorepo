@@ -2,9 +2,9 @@ import { Container, Typography } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
 import { t } from 'i18next';
 
+import { UsersList } from '../components/users/UsersList';
 import { UsersPagination } from '../components/users/UsersPagination';
 import { useUsers } from '../hooks/useUsers';
-import { UsersList } from '../components/users/UsersList';
 
 const Users: React.FC = () => {
   const { users, pagination, params, changeQuery } = useUsers();
