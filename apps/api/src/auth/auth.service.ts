@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { User } from '../users/users.entity';
-import { AuthDto } from './auth.dto';
+import { LoginDto } from './auth.dto';
 import { UsersRepository } from '../users/users.repository';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class AuthService {
     private usersRepository: UsersRepository,
   ) {}
 
-  async login(payload: AuthDto): Promise<User> {
+  async login(payload: LoginDto): Promise<User> {
     const { email } = payload;
 
     let user = await this.authRepository.findByEmail(email);
