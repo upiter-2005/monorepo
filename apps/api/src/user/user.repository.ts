@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { User } from './users.entity';
+import { User } from './user.entity';
 import { Params } from '@org/types';
-import { UserCreateDto } from './users.dto';
+import { UserCreateDto } from './user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class UsersRepository {
+export class UserRepository {
   constructor(
     @InjectRepository(User)
     private readonly repository: Repository<User>,
@@ -31,16 +31,13 @@ export class UsersRepository {
 
     return {
       data: users,
-      meta: {
+      pagination: {
         total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
       },
     };
   }
 
-  async createUser(user: UserCreateDto) {
+  async create(user: UserCreateDto) {
     const newUser = this.repository.create({
       email: user.email,
       role: user.role,
@@ -49,7 +46,7 @@ export class UsersRepository {
     return await this.repository.save(newUser);
   }
 
-  async saveUser(user: User) {
+  async save(user: User) {
     return await this.repository.save(user);
   }
 }

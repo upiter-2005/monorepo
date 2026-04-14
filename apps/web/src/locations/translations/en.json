@@ -1,0 +1,18 @@
+{
+  "menu_items": {
+    "home": "Home",
+    "login": "Login",
+    "logout": "Logout",
+    "en": "en",
+    "ua": "ua"
+  },
+  "login_page": {
+    "loginFailed": "Login failed!"
+  },
+  "user_page": {
+    "users": "Users",
+    "user_list": "Users list",
+    "newest": "Newest",
+    "oldest": "Oldest"
+  }
+}

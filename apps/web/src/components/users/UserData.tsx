@@ -10,7 +10,6 @@ interface UserDataToken {
 const UserData: React.FC<UserDataToken> = ({ decodeData }) => {
   return (
     <Box className="flex flex-col items-center gap-2">
-      <h1>Testing CD</h1>
       <Typography variant="h4" gutterBottom>
         {decodeData.family_name} {decodeData.given_name}
       </Typography>

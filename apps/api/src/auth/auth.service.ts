@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
-import { User } from '../users/users.entity';
+import { User } from '../user/user.entity';
 import { LoginDto } from './auth.dto';
-import { UsersRepository } from '../users/users.repository';
+import { UserRepository } from '../user/user.repository';
+import { ROLE } from '../consts/roles';
 
 @Injectable()
 export class AuthService {
   constructor(
     private authRepository: AuthRepository,
-    private usersRepository: UsersRepository,
+    private userRepository: UserRepository,
   ) {}
 
   async login(payload: LoginDto): Promise<User> {
@@ -20,13 +21,13 @@ export class AuthService {
     if (user) {
       user.lastLoginAt = lastLoginAt;
     } else {
-      user = await this.usersRepository.createUser({
+      user = await this.userRepository.create({
         email,
-        role: 'user',
+        role: ROLE.USER,
         lastLoginAt,
       });
     }
 
-    return this.usersRepository.saveUser(user);
+    return this.userRepository.save(user);
   }
 }

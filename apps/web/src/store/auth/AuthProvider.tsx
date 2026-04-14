@@ -7,8 +7,8 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from './AuthContext';
-import { getToken, setToken, removeToken } from '../../share/helpers/token';
-import { ROUTES } from '../../share/routes';
+import { ROUTES } from '../../consts/routes';
+import { getToken, setToken, removeToken } from '../../helpers/token';
 interface AuthProviderProps {
   children: ReactNode;
 }

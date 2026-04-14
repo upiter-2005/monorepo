@@ -29,3 +29,10 @@ export type Params = {
   sortBy?: SortBy;
   order?: Order;
 };
+
+export type Pagination = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages?: number;
+};

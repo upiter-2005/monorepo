@@ -1,28 +1,30 @@
 import { Body, Controller, Get, Post, Query, HttpStatus } from '@nestjs/common';
 import { HttpException } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UserCreateDto } from './users.dto';
-import { GetUsersDto } from '../dto/dto/get-users.dto';
+import { UserService } from './user.service';
+import { UserCreateDto } from './user.dto';
+import { UserGetDto } from '../dto/dto/userGet.dto';
 
 @Controller('users')
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UserController {
+  constructor(private readonly userService: UserService) {}
 
   @Get()
-  findAll(@Query() query: GetUsersDto) {
+  findAll(@Query() query: UserGetDto) {
     const { page, limit, search, sortBy, order } = query;
 
-    return this.usersService.fetchUsers({ page, limit, search, sortBy, order });
+    return this.userService.fetchUsers({ page, limit, search, sortBy, order });
   }
 
   @Post()
   async createUser(@Body() payload: UserCreateDto) {
     const { email, role } = payload;
 
-    const user = await this.usersService.createUser({ email, role });
+    const user = await this.userService.createUser({ email, role });
+
     if (!user) {
       throw new HttpException('', HttpStatus.NOT_FOUND);
     }
+
     return {
       user,
     };

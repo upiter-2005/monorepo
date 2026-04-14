@@ -9,7 +9,7 @@ const LogoutButton: React.FC = () => {
 
   return (
     <Button onClick={cleanToken} className="!bg-gray-500 !text-white hover:!bg-gray-300 px-4 py-2">
-      {t('logout')}
+      {t('menu_items.logout')}
     </Button>
   );
 };

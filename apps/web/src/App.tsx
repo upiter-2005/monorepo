@@ -1,10 +1,10 @@
 import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navigation';
+import { ROUTES } from './consts/routes';
 import Home from './pages/HomePage';
 import Login from './pages/LoginPage';
 import Users from './pages/UsersPage';
-import { ROUTES } from './share/routes';
 
 function App() {
   return (

@@ -19,7 +19,7 @@ export default function CustomizedSnackbars({ open = false }) {
     <div>
       <Snackbar open={isOpen} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error" variant="filled" sx={{ width: '100%' }}>
-          {t('loginFailed')}
+          {t('login_page.loginFailed')}
         </Alert>
       </Snackbar>
     </div>
