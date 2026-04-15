@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserGetDto } from '../dto/dto/userGet.dto';
+import { UserPaginationDto, UserParamDto } from '../dto/dto/userGet.dto';
 import { UserRepository } from './user.repository';
 import { UserCreateDto } from './user.dto';
 
@@ -7,11 +7,11 @@ import { UserCreateDto } from './user.dto';
 export class UserService {
   constructor(private usersRepository: UserRepository) {}
 
-  async fetchUsers(params: UserGetDto) {
-    return await this.usersRepository.findByParam(params);
+  async getUsers(params: UserParamDto, pagination: UserPaginationDto) {
+    return this.usersRepository.findByParam(params, pagination);
   }
 
   async createUser(userData: UserCreateDto) {
-    return await this.usersRepository.create(userData);
+    return this.usersRepository.create(userData);
   }
 }

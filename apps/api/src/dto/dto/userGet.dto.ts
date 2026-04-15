@@ -1,7 +1,22 @@
+import * as types from '@org/types';
+import { ORDER, SORT_BY } from '@org/constants';
 import { Type } from 'class-transformer';
-import { IsOptional, IsInt, Min, IsString, IsIn, Max } from 'class-validator';
+import { IsOptional, IsInt, Min, IsString, Max } from 'class-validator';
+import { IntersectionType } from '@nestjs/mapped-types';
 
-export class UserGetDto {
+export class UserParamDto {
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @IsOptional()
+  sortBy: types.SortBy = SORT_BY.CREATED_AT;
+
+  @IsOptional()
+  order: types.Order = ORDER.DESC;
+}
+
+export class UserPaginationDto {
   @IsOptional()
   @Type(() => Number)
   @IsInt()
@@ -14,16 +29,6 @@ export class UserGetDto {
   @Min(1)
   @Max(15)
   limit = 10;
-
-  @IsOptional()
-  @IsString()
-  search?: string;
-
-  @IsOptional()
-  @IsIn(['createdAt', 'lastLoginAt'])
-  sortBy: 'createdAt' | 'lastLoginAt' = 'createdAt';
-
-  @IsOptional()
-  @IsIn(['ASC', 'DESC'])
-  order: 'ASC' | 'DESC' = 'DESC';
 }
+
+export class UserGetDto extends IntersectionType(UserParamDto, UserPaginationDto) {}

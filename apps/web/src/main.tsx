@@ -5,7 +5,7 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
-import './locations';
+import './localization';
 import App from './App';
 import { AuthProvider } from './store/auth/AuthProvider';
 

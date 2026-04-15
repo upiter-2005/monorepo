@@ -3,7 +3,7 @@ import { AuthRepository } from './auth.repository';
 import { User } from '../user/user.entity';
 import { LoginDto } from './auth.dto';
 import { UserRepository } from '../user/user.repository';
-import { ROLE } from '../consts/roles';
+import { ROLE } from '../constants/roles';
 
 @Injectable()
 export class AuthService {

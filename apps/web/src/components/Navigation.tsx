@@ -2,7 +2,7 @@ import { Toolbar, Button, Box } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
-import { ROUTES } from '../consts/routes';
+import { ROUTES } from '../constants/routes';
 
 const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation();

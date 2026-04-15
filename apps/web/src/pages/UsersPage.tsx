@@ -1,15 +1,15 @@
 import { Container, Typography } from '@mui/material';
 import { Select, MenuItem } from '@mui/material';
+import { ORDER } from '@org/constants';
 import { useTranslation } from 'react-i18next';
 
 import { UsersList } from '../components/users/UsersList';
 import { UsersPagination } from '../components/users/UsersPagination';
-import { ORDER } from '../consts/orders';
 import { usePagination } from '../hooks/usePagination';
 import { useQueryParams } from '../hooks/useQueryParams';
 import { useUsers } from '../hooks/useUsers';
 
-const Users: React.FC = () => {
+const UsersPage: React.FC = () => {
   const { users, total, changeQuery } = useUsers();
   const { params, setParams } = useQueryParams();
   const pagination = usePagination({
@@ -51,4 +51,4 @@ const Users: React.FC = () => {
   );
 };
 
-export default Users;
+export default UsersPage;

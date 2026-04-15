@@ -9,14 +9,14 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  findAll(@Query() query: UserGetDto) {
+  async findAll(@Query() query: UserGetDto) {
     const { page, limit, search, sortBy, order } = query;
 
-    return this.userService.fetchUsers({ page, limit, search, sortBy, order });
+    return this.userService.getUsers({ search, sortBy, order }, { page, limit });
   }
 
   @Post()
-  async createUser(@Body() payload: UserCreateDto) {
+  async create(@Body() payload: UserCreateDto) {
     const { email, role } = payload;
 
     const user = await this.userService.createUser({ email, role });
@@ -25,8 +25,6 @@ export class UserController {
       throw new HttpException('', HttpStatus.NOT_FOUND);
     }
 
-    return {
-      user,
-    };
+    return user;
   }
 }

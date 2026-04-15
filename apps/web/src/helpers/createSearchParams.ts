@@ -4,7 +4,7 @@ export function createSearchParams(params: Params): string {
   return new URLSearchParams(
     Object.entries(params).reduce(
       (acc, [key, value]) => {
-        if (value !== undefined) acc[key] = String(value);
+        acc[key] = String(value);
         return acc;
       },
       {} as Record<string, string>,

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
-import { Params } from '@org/types';
+import { Params, Pagination } from '@org/types';
 import { UserCreateDto } from './user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -12,8 +12,9 @@ export class UserRepository {
     private readonly repository: Repository<User>,
   ) {}
 
-  async findByParam(params: Params) {
-    const { page, limit, search, sortBy, order } = params;
+  async findByParam(params: Partial<Params>, pagination: Pick<Pagination, 'page' | 'limit'>) {
+    const { search, sortBy, order } = params;
+    const { page, limit } = pagination;
 
     const query = this.repository.createQueryBuilder('user');
 
@@ -27,26 +28,25 @@ export class UserRepository {
 
     query.skip((page - 1) * limit).take(limit);
 
-    const [users, total] = await query.getManyAndCount();
+    const [users, totalCount] = await query.getManyAndCount();
 
     return {
       data: users,
-      pagination: {
-        total,
-      },
+      totalCount,
     };
   }
 
-  async create(user: UserCreateDto) {
-    const newUser = this.repository.create({
-      email: user.email,
-      role: user.role,
+  async create(userData: UserCreateDto) {
+    const user = this.repository.create({
+      email: userData.email,
+      role: userData.role,
       lastLoginAt: new Date(),
     });
-    return await this.repository.save(newUser);
+
+    return this.repository.save(user);
   }
 
   async save(user: User) {
-    return await this.repository.save(user);
+    return this.repository.save(user);
   }
 }
