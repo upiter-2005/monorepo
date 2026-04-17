@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import * as types from '@org/types';
+import { UserRole } from '@org/types';
 
 @Entity()
 export class User {
@@ -16,7 +16,7 @@ export class User {
   email: string;
 
   @Column({ type: 'varchar' })
-  role: types.UserRole;
+  role: UserRole;
 
   @Column({ type: 'varchar', nullable: true })
   firstName?: string;

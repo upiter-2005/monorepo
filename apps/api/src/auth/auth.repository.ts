@@ -12,6 +12,6 @@ export class AuthRepository {
   ) {}
 
   async findByEmail(email: string) {
-    return await this.repository.findOneBy({ email });
+    return this.repository.findOneBy({ email });
   }
 }

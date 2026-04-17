@@ -5,13 +5,13 @@ import { UserCreateDto } from './user.dto';
 
 @Injectable()
 export class UserService {
-  constructor(private usersRepository: UserRepository) {}
+  constructor(private userRepository: UserRepository) {}
 
   async getUsers(params: UserParamDto, pagination: UserPaginationDto) {
-    return this.usersRepository.findByParam(params, pagination);
+    return this.userRepository.findByParam(params, pagination);
   }
 
   async createUser(userData: UserCreateDto) {
-    return this.usersRepository.create(userData);
+    return this.userRepository.create(userData);
   }
 }

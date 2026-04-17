@@ -1,25 +1,21 @@
 import { useEffect, useState } from 'react';
 
-import { Params, User } from '@org/types';
+import { User } from '@org/types';
 
-import { useQueryParams } from './useQueryParams';
 import { fetchUsers } from '../client/user';
-import { createSearchParams } from '../helpers/createSearchParams';
 
-export const useUsers = (initialParams: Partial<Params> = {}) => {
-  const { params } = useQueryParams();
-
+export function useUsers(searchQuery: string) {
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const refetch = async (query?: string) => {
+  const refetch = async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const data = await fetchUsers(query);
+      const data = await fetchUsers(searchQuery);
 
       setUsers(data.data);
       setTotal(data.totalCount);
@@ -29,21 +25,14 @@ export const useUsers = (initialParams: Partial<Params> = {}) => {
     }
   };
 
-  const changeQuery = (params: Params): void => {
-    const query = createSearchParams(params);
-    refetch(query);
-  };
-
   useEffect(() => {
-    changeQuery(params);
-  }, []);
+    refetch();
+  }, [searchQuery]);
 
   return {
     users,
+    total,
     isLoading,
     error,
-    total,
-    changeQuery,
-    refetch,
   };
-};
+}

@@ -5,18 +5,17 @@ import { useTranslation } from 'react-i18next';
 
 import { UsersList } from '../components/users/UsersList';
 import { UsersPagination } from '../components/users/UsersPagination';
+import { DEFAULT_PAGINATION_PARAMS, DEFAULT_QUERY_PARAMS } from '../constants/queryParams';
 import { usePagination } from '../hooks/usePagination';
 import { useQueryParams } from '../hooks/useQueryParams';
 import { useUsers } from '../hooks/useUsers';
 
 const UsersPage: React.FC = () => {
-  const { users, total, changeQuery } = useUsers();
-  const { params, setParams } = useQueryParams();
-  const pagination = usePagination({
-    page: params.page,
-    limit: params.limit,
-    total,
-  });
+  const { pagination, setPage } = usePagination(DEFAULT_PAGINATION_PARAMS);
+  const { queryString, params, changeQuery } = useQueryParams(DEFAULT_QUERY_PARAMS, pagination);
+  const { users, total } = useUsers(queryString);
+
+  const totalPages = Math.ceil(total / pagination.limit);
 
   const { t } = useTranslation();
 
@@ -25,26 +24,29 @@ const UsersPage: React.FC = () => {
       <Typography component="h1" className="text-center ">
         {t('user_page.user_list')}
       </Typography>
-
-      <Select
-        value={params.order || ORDER.DESC}
-        onChange={(e) => {
-          changeQuery({ ...params, order: e.target.value, sortBy: 'createdAt' });
-          setParams({ ...params, order: e.target.value, sortBy: 'createdAt' });
-        }}
-      >
-        <MenuItem value={ORDER.DESC}> {t('user_page.newest')} </MenuItem>
-        <MenuItem value={ORDER.ASC}>{t('user_page.oldest')} </MenuItem>
-      </Select>
+      {params && (
+        <Select
+          value={params.order || ORDER.DESC}
+          onChange={(e) => {
+            changeQuery(
+              { ...params, order: e.target.value, sortBy: 'createdAt' },
+              { ...pagination },
+            );
+          }}
+        >
+          <MenuItem value={ORDER.DESC}> {t('user_page.newest')} </MenuItem>
+          <MenuItem value={ORDER.ASC}>{t('user_page.oldest')} </MenuItem>
+        </Select>
+      )}
 
       <UsersList users={users} />
 
       <UsersPagination
         page={pagination.page}
-        totalPages={pagination.totalPages}
+        totalPages={totalPages}
         onChange={(page) => {
-          changeQuery({ ...params, page });
-          setParams({ ...params, page });
+          changeQuery({ ...params }, { ...pagination, page });
+          setPage(page);
         }}
       />
     </Container>

@@ -24,17 +24,15 @@ export type User = {
   lastLoginAt: string;
 };
 
+export type FetchUsersPayload = User;
+
 export type Params = {
-  page: number;
-  limit: number;
   search?: string;
   sortBy?: SortBy;
   order?: Order;
 };
 
 export type Pagination = {
-  total: number;
   page: number;
   limit: number;
-  totalPages?: number;
 };

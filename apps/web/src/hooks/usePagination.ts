@@ -1,16 +1,26 @@
-import { useMemo } from 'react';
+import { useState } from 'react';
 
 import { Pagination } from '@org/types';
 
-export const usePagination = ({ page, limit, total }: Pagination) => {
-  const totalPages = useMemo(() => {
-    return Math.max(Math.ceil(total / limit));
-  }, [total, limit]);
+export const usePagination = (initialParams: Pagination) => {
+  const [pagination, setPagination] = useState<Pagination>(initialParams);
+
+  const setPage = (page: number) => {
+    setPagination((prev) => ({ ...prev, page }));
+  };
+
+  const setLimit = (limit: number) => {
+    setPagination((prev) => ({
+      ...prev,
+      limit,
+      page: 1,
+    }));
+  };
 
   return {
-    page,
-    limit,
-    total,
-    totalPages,
+    pagination,
+    setPagination,
+    setPage,
+    setLimit,
   };
 };
