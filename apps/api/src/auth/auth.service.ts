@@ -15,7 +15,7 @@ export class AuthService {
   async login(payload: LoginDto): Promise<User> {
     const { email } = payload;
 
-    let user = await this.authRepository.findByEmail(email);
+    const user = await this.authRepository.findByEmail(email);
     const lastLoginAt = new Date();
 
     if (user) {

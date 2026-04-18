@@ -13,7 +13,7 @@ export class UserService {
 
   async createUser(userData: UserCreateDto) {
     const { email } = userData;
-    let user = await this.userRepository.findByEmail(email);
+    const user = await this.userRepository.findByEmail(email);
 
     if (user) {
       return null;
