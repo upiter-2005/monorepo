@@ -4,13 +4,15 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { UserRole } from '@org/types';
+import { Session } from '../auth/session.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar' })
   email: string;
@@ -35,4 +37,7 @@ export class User {
 
   @UpdateDateColumn()
   lastLoginAt?: Date;
+
+  @OneToMany(() => Session, (session) => session.user)
+  sessions: Session[];
 }

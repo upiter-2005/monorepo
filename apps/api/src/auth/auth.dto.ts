@@ -8,3 +8,11 @@ export class LoginDto {
   @IsString()
   firstName?: string;
 }
+
+export class SessionCreateDto {
+  @IsString()
+  refreshToken: string;
+
+  @IsString()
+  userData: string;
+}

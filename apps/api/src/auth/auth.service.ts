@@ -4,15 +4,19 @@ import { User } from '../user/user.entity';
 import { LoginDto } from './auth.dto';
 import { UserRepository } from '../user/user.repository';
 import { ROLE } from '../constants/roles';
+import { TokenService } from './token.service';
+import { TokenRepository } from './token.repository';
 
 @Injectable()
 export class AuthService {
   constructor(
     private authRepository: AuthRepository,
     private userRepository: UserRepository,
+    private tokenService: TokenService,
+    private tokenRepository: TokenRepository,
   ) {}
 
-  async login(payload: LoginDto): Promise<User> {
+  async login(payload: LoginDto) {
     const { email } = payload;
 
     const user = await this.authRepository.findByEmail(email);
@@ -20,14 +24,24 @@ export class AuthService {
 
     if (user) {
       user.lastLoginAt = lastLoginAt;
-    } else {
-      return this.userRepository.create({
-        email,
-        role: ROLE.USER,
-        lastLoginAt,
-      });
+      const tokens = await this.tokenService.generate(user);
+      await this.tokenRepository.create(user, tokens.refreshToken);
+
+      return { user, tokens };
     }
 
-    return this.userRepository.save(user);
+    return this.register(email, lastLoginAt);
+  }
+
+  async register(email: string, lastLoginAt: Date) {
+    const user = await this.userRepository.create({
+      email,
+      role: ROLE.USER,
+      lastLoginAt,
+    });
+    const tokens = await this.tokenService.generate(user);
+    await this.tokenRepository.create(user, tokens.refreshToken);
+
+    return { user, tokens };
   }
 }

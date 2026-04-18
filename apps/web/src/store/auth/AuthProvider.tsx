@@ -24,10 +24,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   const handleSuccess = (credentialResponseData: CredentialResponse) => {
+    console.log(credentialResponseData);
     const crd = credentialResponseData.credential;
     if (crd) {
       const decoded: CredentialResponse = jwtDecode(crd);
       setToken(crd);
+      console.log(decoded);
       if (decoded) navigate(ROUTES.HOME);
     }
   };
