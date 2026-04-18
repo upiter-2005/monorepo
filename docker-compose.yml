@@ -24,7 +24,6 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=postgres://devuser:devpass@postgres:5432/mydb
     depends_on:
       - postgres
 
