@@ -22,7 +22,7 @@ export class UserController {
     const user = await this.userService.createUser({ email, role });
 
     if (!user) {
-      throw new HttpException('', HttpStatus.NOT_FOUND);
+      throw new HttpException('', HttpStatus.CONFLICT);
     }
 
     return user;

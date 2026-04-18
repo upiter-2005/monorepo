@@ -11,7 +11,7 @@ export class AuthRepository {
     private readonly repository: Repository<User>,
   ) {}
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User | null> {
     return this.repository.findOneBy({ email });
   }
 }

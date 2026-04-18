@@ -21,7 +21,7 @@ export class AuthService {
     if (user) {
       user.lastLoginAt = lastLoginAt;
     } else {
-      user = await this.userRepository.create({
+      return this.userRepository.create({
         email,
         role: ROLE.USER,
         lastLoginAt,
