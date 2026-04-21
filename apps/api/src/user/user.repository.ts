@@ -35,8 +35,13 @@ export class UserRepository {
       totalCount,
     };
   }
+
   async findByEmail(email: string) {
     return this.repository.findOne({ where: { email } });
+  }
+
+  async findById(id: string) {
+    return this.repository.findOne({ where: { id } });
   }
 
   async create(userData: UserCreateDto) {

@@ -7,8 +7,10 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from './AuthContext';
+import { login } from '../../client/login';
 import { ROUTES } from '../../constants/routes';
 import { getToken, setToken, removeToken } from '../../helpers/token';
+
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -23,13 +25,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     navigate(ROUTES.LOGIN);
   };
 
-  const handleSuccess = (credentialResponseData: CredentialResponse) => {
-    console.log(credentialResponseData);
+  const handleSuccess = async (credentialResponseData: CredentialResponse) => {
     const crd = credentialResponseData.credential;
+    console.log(crd);
     if (crd) {
       const decoded: CredentialResponse = jwtDecode(crd);
-      setToken(crd);
       console.log(decoded);
+      const { accessToken } = await login({ decoded, role: 'user' });
+      setToken(accessToken);
       if (decoded) navigate(ROUTES.HOME);
     }
   };

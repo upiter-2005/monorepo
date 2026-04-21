@@ -1,4 +1,5 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsIn, IsOptional, IsString } from 'class-validator';
+import * as types from '@org/types';
 
 export class LoginDto {
   @IsEmail()
@@ -15,4 +16,23 @@ export class SessionCreateDto {
 
   @IsString()
   userData: string;
+}
+
+export class TokensDto {
+  @IsString()
+  refreshToken: string;
+
+  @IsString()
+  accessToken: string;
+}
+
+export class LoginResponseDto {
+  @IsEmail()
+  email: string;
+
+  @IsIn(['user', 'admin'])
+  role: types.UserRole;
+
+  @IsString()
+  accessToken: string;
 }

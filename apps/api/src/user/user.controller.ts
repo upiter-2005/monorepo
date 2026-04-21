@@ -1,15 +1,17 @@
-import { Body, Controller, Get, Post, Query, HttpStatus } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, HttpStatus, UseGuards, Req } from '@nestjs/common';
 import { HttpException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserCreateDto } from './user.dto';
 import { UserGetDto } from '../dto/dto/userGet.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Get()
-  async findAll(@Query() query: UserGetDto) {
+  async findAll(@Query() query: UserGetDto, @Req() req: Request & { user: any }) {
     const { page, limit, search, sortBy, order } = query;
 
     return this.userService.getUsers({ search, sortBy, order }, { page, limit });

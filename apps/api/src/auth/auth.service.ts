@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
-import { User } from '../user/user.entity';
 import { LoginDto } from './auth.dto';
 import { UserRepository } from '../user/user.repository';
 import { ROLE } from '../constants/roles';
@@ -24,13 +23,25 @@ export class AuthService {
 
     if (user) {
       user.lastLoginAt = lastLoginAt;
-      const tokens = await this.tokenService.generate(user);
-      await this.tokenRepository.create(user, tokens.refreshToken);
 
-      return { user, tokens };
+      const { accessToken, refreshToken } = await this.tokenService.generate(user);
+      await this.tokenRepository.create(user, refreshToken);
+
+      return { email: user.email, role: user.role, accessToken, refreshToken };
     }
 
-    return this.register(email, lastLoginAt);
+    const { accessToken, refreshToken } = await this.tokenService.generate({
+      email,
+      role: ROLE.USER,
+    } as any);
+    const { user: data } = await this.register(email, lastLoginAt);
+
+    return {
+      email: data.email,
+      role: data.role,
+      accessToken,
+      refreshToken,
+    };
   }
 
   async register(email: string, lastLoginAt: Date) {

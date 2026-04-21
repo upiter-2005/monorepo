@@ -9,7 +9,7 @@ export class Session {
   @Column({ type: 'uuid' })
   user_id: string;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'text' })
   refreshToken: string;
 
   @ManyToOne(() => User, (user) => user.sessions)

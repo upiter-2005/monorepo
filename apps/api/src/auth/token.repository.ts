@@ -13,6 +13,7 @@ export class TokenRepository {
   ) {}
 
   async create(user: User, refreshToken: string) {
+    await this.repository.delete({ user_id: user.id });
     const session = await this.repository.create({
       user_id: user.id,
       refreshToken,
@@ -21,7 +22,11 @@ export class TokenRepository {
     return this.repository.save(session);
   }
 
-  async delete(id: string) {
-    return this.repository.delete({ user_id: id });
+  async findByRefreshToken(refreshToken: string) {
+    return this.repository.findOne({ where: { refreshToken } });
+  }
+
+  async delete(user_id: string) {
+    return this.repository.delete({ user_id });
   }
 }

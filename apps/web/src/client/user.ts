@@ -1,12 +1,20 @@
 import { FetchUsersPayload } from '@org/types';
 
+import { authFetch } from './auth';
 import { API_URL } from '../constants/apiUrls';
 import { createSearchParams } from '../helpers/createSearchParams';
+import { getToken } from '../helpers/token';
 
 export async function fetchUsers(
   query: string = createSearchParams(),
 ): Promise<{ data: FetchUsersPayload[]; totalCount: number }> {
-  const response = await fetch(`${API_URL}/users?${query}`);
+  const accessToken = getToken();
+  const response = await authFetch(`${API_URL}/users?${query}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
   return response.json();
 }
