@@ -12,7 +12,7 @@ export class UserRepository {
     private readonly repository: Repository<User>,
   ) {}
 
-  async findByParam(params: Partial<Params>, pagination: Pick<Pagination, 'page' | 'limit'>) {
+  async findByParam(params: Partial<Params>, pagination: Pagination) {
     const { search, sortBy, order } = params;
     const { page, limit } = pagination;
 
@@ -44,10 +44,11 @@ export class UserRepository {
     return this.repository.findOne({ where: { id } });
   }
 
-  async create(userData: UserCreateDto) {
+  async create(payload: UserCreateDto) {
+    const { email, role } = payload;
     const user = this.repository.create({
-      email: userData.email,
-      role: userData.role,
+      email,
+      role,
       lastLoginAt: new Date(),
     });
 

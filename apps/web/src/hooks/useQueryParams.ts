@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Pagination, Params } from '@org/types';
 
@@ -8,25 +8,20 @@ type QueryParams = Params & Pagination;
 
 export function useQueryParams(initialParams: Params, pagination: Pagination) {
   const [params, setParams] = useState<QueryParams>({ ...initialParams, ...pagination });
-  const [queryString, setQueryString] = useState<string>('');
-
-  useEffect(() => {
-    const query = createSearchParams({ ...initialParams, ...pagination });
-    setQueryString(query);
-    setParams({ ...initialParams, ...pagination });
-  }, []);
+  const [query, setQuery] = useState<string>(
+    createSearchParams({ ...initialParams, ...pagination }),
+  );
 
   const changeQuery = (params: Params, pagination: Pagination): void => {
-    console.log('pagination', params, pagination);
     setParams({ ...params, ...pagination });
     const query = createSearchParams({ ...params, ...pagination });
-    setQueryString(query);
+    setQuery(query);
   };
 
   return {
     params,
     setParams,
     changeQuery,
-    queryString,
+    query,
   };
 }

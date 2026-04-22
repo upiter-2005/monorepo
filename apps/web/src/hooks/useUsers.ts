@@ -15,10 +15,10 @@ export function useUsers(searchQuery: string) {
       setIsLoading(true);
       setError(null);
 
-      const data = await fetchUsers(searchQuery);
+      const { users, totalCount } = await fetchUsers(searchQuery);
 
-      setUsers(data.data);
-      setTotal(data.totalCount);
+      setUsers(users);
+      setTotal(totalCount);
       setIsLoading(false);
     } catch (err) {
       setError((err as Error).message);

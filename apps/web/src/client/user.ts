@@ -7,7 +7,7 @@ import { getToken } from '../helpers/token';
 
 export async function fetchUsers(
   query: string = createSearchParams(),
-): Promise<{ data: FetchUsersPayload[]; totalCount: number }> {
+): Promise<{ users: FetchUsersPayload[]; totalCount: number }> {
   const accessToken = getToken();
   const response = await authFetch(`${API_URL}/users?${query}`, {
     method: 'GET',
@@ -16,5 +16,8 @@ export async function fetchUsers(
     },
   });
 
-  return response.json();
+  const res = await response.json();
+  const { data: users, totalCount } = res;
+
+  return { users, totalCount };
 }

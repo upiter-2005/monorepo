@@ -12,8 +12,8 @@ import { useUsers } from '../hooks/useUsers';
 
 const UsersPage: React.FC = () => {
   const { pagination, setPage } = usePagination(DEFAULT_PAGINATION_PARAMS);
-  const { queryString, params, changeQuery } = useQueryParams(DEFAULT_QUERY_PARAMS, pagination);
-  const { users, total } = useUsers(queryString);
+  const { query, params, changeQuery } = useQueryParams(DEFAULT_QUERY_PARAMS, pagination);
+  const { users, total } = useUsers(query);
 
   const totalPages = Math.ceil(total / pagination.limit);
 

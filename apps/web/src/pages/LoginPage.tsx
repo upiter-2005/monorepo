@@ -21,7 +21,6 @@ const Login: React.FC = () => {
     const response = await fetch(`${HOST}/api`);
     const data = await response.json();
     setFetchData(data);
-    console.log(data);
   };
   useEffect(() => {
     fetchFromNest();

@@ -1,8 +1,8 @@
-//import { getToken } from '../helpers/token';
 import { refreshSession } from './session';
+import { getToken, removeToken } from '../helpers/token';
 
 export async function authFetch(url: string, init: RequestInit = {}): Promise<Response> {
-  let accessToken = localStorage.getItem('token');
+  let accessToken = getToken() || '';
 
   let response = await fetch(url, {
     ...init,
@@ -16,7 +16,7 @@ export async function authFetch(url: string, init: RequestInit = {}): Promise<Re
   if (response.status !== 401) {
     return response;
   }
-
+  removeToken();
   accessToken = await refreshSession();
 
   response = await fetch(url, {

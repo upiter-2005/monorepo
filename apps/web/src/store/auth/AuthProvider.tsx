@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from './AuthContext';
 import { login } from '../../client/login';
+import { logout } from '../../client/logout';
 import { ROUTES } from '../../constants/routes';
 import { getToken, setToken, removeToken } from '../../helpers/token';
 
@@ -19,18 +20,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<CredentialResponseData>({});
 
-  const cleanToken = () => {
+  const cleanToken = async () => {
     googleLogout();
     removeToken();
+    logout();
     navigate(ROUTES.LOGIN);
   };
 
   const handleSuccess = async (credentialResponseData: CredentialResponse) => {
     const crd = credentialResponseData.credential;
-    console.log(crd);
     if (crd) {
       const decoded: CredentialResponse = jwtDecode(crd);
-      console.log(decoded);
       const { accessToken } = await login({ decoded, role: 'user' });
       setToken(accessToken);
       if (decoded) navigate(ROUTES.HOME);

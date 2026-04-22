@@ -10,16 +10,14 @@ import { Session } from './session.entity';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { jwtConfig } from '../jwt.config';
 
 @Module({
   imports: [
     UserModule,
     TypeOrmModule.forFeature([Session]),
     PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_ACCESS_SECRET,
-      signOptions: { expiresIn: '15m' },
-    }),
+    JwtModule.register(jwtConfig),
   ],
   controllers: [AuthController],
   providers: [AuthService, AuthRepository, TokenService, TokenRepository, JwtStrategy],

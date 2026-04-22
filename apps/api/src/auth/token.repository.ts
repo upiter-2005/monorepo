@@ -29,4 +29,8 @@ export class TokenRepository {
   async delete(user_id: string) {
     return this.repository.delete({ user_id });
   }
+
+  async deleteByToken(refreshToken: string) {
+    return this.repository.delete({ refreshToken });
+  }
 }

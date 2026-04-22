@@ -11,14 +11,14 @@ export class UserService {
     return this.userRepository.findByParam(params, pagination);
   }
 
-  async createUser(userData: UserCreateDto) {
-    const { email } = userData;
+  async createUser(payload: UserCreateDto) {
+    const { email } = payload;
     const user = await this.userRepository.findByEmail(email);
 
     if (user) {
       return null;
     }
 
-    return this.userRepository.create(userData);
+    return this.userRepository.create(payload);
   }
 }

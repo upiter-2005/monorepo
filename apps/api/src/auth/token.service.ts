@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import { TokenRepository } from './token.repository';
 import { User } from '../user/user.entity';
 import { UserRepository } from '../user/user.repository';
+import { SECRET } from '../constants/jwtSecrets';
 
 @Injectable()
 export class TokenService {
@@ -19,21 +20,19 @@ export class TokenService {
       role,
     };
 
-    const accessToken = jwt.sign(payload, process.env.JWT_ACCESS_SECRET as string, {
+    const accessToken = jwt.sign(payload, SECRET.ACCESS, {
       expiresIn: '1m',
     });
 
-    const refreshToken = jwt.sign(payload, process.env.JWT_REFRESH_SECRET as string, {
+    const refreshToken = jwt.sign(payload, SECRET.REFRESH, {
       expiresIn: '5m',
     });
 
     return { accessToken, refreshToken };
   }
 
-  async verify(token: string, type: 'access' | 'refresh') {
-    const secret =
-      type === 'access' ? process.env.JWT_ACCESS_SECRET : process.env.JWT_REFRESH_SECRET;
-    const isTokenValid = jwt.verify(token, secret as string);
+  async verify(token: string) {
+    const isTokenValid = jwt.verify(token, SECRET.REFRESH);
 
     return isTokenValid;
   }
@@ -44,12 +43,11 @@ export class TokenService {
   }
 
   async refresh(refreshToken: string) {
-    console.log(refreshToken);
     if (!refreshToken) {
       throw new UnauthorizedException('Refresh token not found');
     }
 
-    const isValid = await this.verify(refreshToken, 'refresh');
+    const isValid = await this.verify(refreshToken);
 
     if (!isValid) {
       throw new UnauthorizedException('Invalid refresh token');
@@ -58,7 +56,7 @@ export class TokenService {
     const session = await this.tokenRepository.findByRefreshToken(refreshToken);
 
     if (!session) {
-      throw new UnauthorizedException('Session not found');
+      throw new UnauthorizedException('Session not found, you should login again');
     }
 
     const { user_id } = session;
@@ -71,11 +69,14 @@ export class TokenService {
     const tokens = await this.generate(user);
     await this.tokenRepository.create(user, tokens.refreshToken);
 
-    console.log(refreshToken);
     return { ...user, ...tokens };
   }
 
   async delete(user_id: string) {
     return this.tokenRepository.delete(user_id);
+  }
+
+  async deleteByToken(token: string) {
+    return this.tokenRepository.deleteByToken(token);
   }
 }

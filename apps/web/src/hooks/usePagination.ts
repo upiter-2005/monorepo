@@ -2,7 +2,9 @@ import { useState } from 'react';
 
 import { Pagination } from '@org/types';
 
-export const usePagination = (initialParams: Pagination) => {
+import { DEFAULT_PAGINATION_PARAMS } from '../constants/queryParams';
+
+export const usePagination = (initialParams: Pagination = DEFAULT_PAGINATION_PARAMS) => {
   const [pagination, setPagination] = useState<Pagination>(initialParams);
 
   const setPage = (page: number) => {

@@ -1,6 +1,6 @@
-const TOKEN = localStorage.getItem('token');
-
 const getToken = (): string | null => {
+  const TOKEN = localStorage.getItem('token');
+
   if (TOKEN) {
     return TOKEN;
   } else {
