@@ -1,5 +1,5 @@
 import * as types from '@org/types';
-import { IsIn, IsOptional, IsString, IsDate } from 'class-validator';
+import { IsIn, IsOptional, IsString, IsDate, IsNumber } from 'class-validator';
 
 export class UserCreateDto {
   @IsString({ message: 'Name should be a string' })
@@ -16,4 +16,11 @@ export class UserCreateDto {
   @IsDate()
   @IsOptional()
   lastLoginAt?: Date;
+}
+
+export class UserResponseDto {
+  data: User[];
+
+  @IsNumber()
+  totalCount: number;
 }

@@ -1,14 +1,14 @@
 import { useEffect, useState, type ReactNode } from 'react';
 
-import type { CredentialResponseData } from '@org/types';
+import type { CredentialResponseData, LoginPayload } from '@org/types';
 import type { CredentialResponse } from '@react-oauth/google';
 import { googleLogout } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 
 import { AuthContext } from './AuthContext';
-import { login } from '../../client/login';
-import { logout } from '../../client/logout';
+import { login } from '../../client/auth';
+import { logout } from '../../client/auth';
 import { ROUTES } from '../../constants/routes';
 import { getToken, setToken, removeToken } from '../../helpers/token';
 
@@ -30,8 +30,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const handleSuccess = async (credentialResponseData: CredentialResponse) => {
     const crd = credentialResponseData.credential;
     if (crd) {
-      const decoded: CredentialResponse = jwtDecode(crd);
-      const { accessToken } = await login({ decoded, role: 'user' });
+      const decoded: CredentialResponse & LoginPayload = jwtDecode(crd);
+      const { accessToken } = await login(decoded.email);
       setToken(accessToken);
       if (decoded) navigate(ROUTES.HOME);
     }

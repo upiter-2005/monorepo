@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserPaginationDto, UserParamDto } from '../dto/dto/userGet.dto';
+import { UserPaginationDto, UserParamDto } from './user.get.dto';
 import { UserRepository } from './user.repository';
 import { UserCreateDto } from './user.dto';
 

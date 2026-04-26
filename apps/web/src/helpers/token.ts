@@ -1,11 +1,7 @@
-const getToken = (): string | null => {
-  const TOKEN = localStorage.getItem('token');
+import { LOCAL_STORAGE_KEYS } from '../constants/localStorageKeys';
 
-  if (TOKEN) {
-    return TOKEN;
-  } else {
-    return null;
-  }
+const getToken = (): string | null => {
+  return localStorage.getItem(LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
 };
 
 const setToken = (hash: string): void => {

@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { DeleteResult, Repository } from 'typeorm';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Session } from './session.entity';
-import { User } from '../user/user.entity';
 
 @Injectable()
 export class TokenRepository {
@@ -12,25 +11,25 @@ export class TokenRepository {
     private readonly repository: Repository<Session>,
   ) {}
 
-  async create(user: User, refreshToken: string) {
-    await this.repository.delete({ user_id: user.id });
+  async create(id: string, refreshToken: string): Promise<Session> {
+    await this.repository.delete({ user_id: id });
     const session = await this.repository.create({
-      user_id: user.id,
+      user_id: id,
       refreshToken,
     });
 
     return this.repository.save(session);
   }
 
-  async findByRefreshToken(refreshToken: string) {
+  async findByRefreshToken(refreshToken: string): Promise<Session | null> {
     return this.repository.findOne({ where: { refreshToken } });
   }
 
-  async delete(user_id: string) {
+  async deleteByUserId(user_id: string): Promise<DeleteResult> {
     return this.repository.delete({ user_id });
   }
 
-  async deleteByToken(refreshToken: string) {
+  async deleteByToken(refreshToken: string): Promise<DeleteResult> {
     return this.repository.delete({ refreshToken });
   }
 }

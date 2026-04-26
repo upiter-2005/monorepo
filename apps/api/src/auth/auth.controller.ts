@@ -1,66 +1,86 @@
-import { Body, Controller, Post, Get, Req, Res } from '@nestjs/common';
+import { Body, Controller, Post, Get, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto, LoginResponseDto } from './auth.dto';
+import { AuthorizedDto, LoginDto } from './auth.dto';
 import type { Response, Request } from 'express';
 import { TokenService } from './token.service';
+import { setRefreshCookie } from '../helpers/set.refresh.cookie';
+import { clearRefreshCookie } from '../helpers/clear.refresh.cookie';
+import { LogoutDto } from './auth.types';
+import { TokenRepository } from './token.repository';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly tokenService: TokenService,
+    private readonly tokenRepository: TokenRepository,
   ) {}
-
-  private setRefreshCookie(res: Response, refreshToken: string): void {
-    res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: false,
-      path: '/',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-  }
-
-  private clearRefreshCookie(res: Response): void {
-    res.clearCookie('refreshToken', {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: false,
-      path: '/',
-    });
-  }
 
   @Post('login')
   async login(
     @Body() payload: LoginDto,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<LoginResponseDto> {
-    const { email, role, accessToken, refreshToken } = await this.authService.login(payload);
+  ): Promise<AuthorizedDto> {
+    const { id, email, role } = await this.authService.login(payload);
+    const { accessToken, refreshToken } = await this.tokenService.generate({
+      email,
+      role,
+      sub: id,
+    });
+    await this.tokenService.create(id, refreshToken);
 
-    this.setRefreshCookie(res, refreshToken);
+    setRefreshCookie(res, refreshToken);
 
     return { email, role, accessToken };
   }
 
   @Get('refresh')
-  async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  async refresh(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<AuthorizedDto> {
     const httpRefreshToken = req.cookies.refreshToken;
-    const { email, role, accessToken, refreshToken } =
-      await this.tokenService.refresh(httpRefreshToken);
 
-    this.setRefreshCookie(res, refreshToken);
+    if (!httpRefreshToken) {
+      throw new UnauthorizedException('Refresh token not found');
+    }
+
+    const isValid = this.tokenService.verify(httpRefreshToken);
+
+    if (!isValid) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    const session = await this.tokenRepository.findByRefreshToken(httpRefreshToken);
+
+    if (!session) {
+      throw new UnauthorizedException('Session not found, you should login again');
+    }
+
+    const { user_id } = session;
+
+    const { email, role, accessToken, refreshToken } = await this.tokenService.refresh(
+      httpRefreshToken,
+      user_id,
+    );
+
+    setRefreshCookie(res, refreshToken);
 
     return { email, role, accessToken };
   }
 
   @Get('logout')
-  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response): Promise<LogoutDto> {
     const httpRefreshToken = req.cookies.refreshToken;
+
+    if (!httpRefreshToken) {
+      throw new UnauthorizedException('Refresh token not found');
+    }
 
     await this.tokenService.deleteByToken(httpRefreshToken);
 
-    this.clearRefreshCookie(res);
+    clearRefreshCookie(res);
 
-    return { message: 'Logged out successfully' };
+    return { status: 302 };
   }
 }

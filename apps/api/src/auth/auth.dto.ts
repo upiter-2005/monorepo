@@ -18,7 +18,7 @@ export class SessionCreateDto {
   userData: string;
 }
 
-export class TokensDto {
+export class SessionTokensDto {
   @IsString()
   refreshToken: string;
 
@@ -26,7 +26,7 @@ export class TokensDto {
   accessToken: string;
 }
 
-export class LoginResponseDto {
+export class AuthorizedDto {
   @IsEmail()
   email: string;
 

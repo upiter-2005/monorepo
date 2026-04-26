@@ -1,32 +1,27 @@
-import { refreshSession } from './session';
-import { getToken, removeToken } from '../helpers/token';
+import { LoginResponse } from '@org/types';
 
-export async function authFetch(url: string, init: RequestInit = {}): Promise<Response> {
-  let accessToken = getToken() || '';
+import { API_URL } from '../constants/apiUrls';
+import { removeToken, setToken } from '../helpers/token';
 
-  let response = await fetch(url, {
-    ...init,
+export async function login(email: string): Promise<LoginResponse> {
+  const response = await fetch(`${API_URL}/auth/login`, {
+    method: 'POST',
     credentials: 'include',
     headers: {
-      ...(init.headers || {}),
-      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify({ email }),
   });
 
-  if (response.status !== 401) {
-    return response;
-  }
-  removeToken();
-  accessToken = await refreshSession();
+  const data = await response.json();
+  setToken(data.accessToken);
 
-  response = await fetch(url, {
-    ...init,
-    credentials: 'include',
-    headers: {
-      ...(init.headers || {}),
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  return response;
+  return { email: data.email, role: data.role, accessToken: data.accessToken };
 }
+
+export const logout = async (): Promise<void> => {
+  await fetch(`${API_URL}/auth/logout`, {
+    credentials: 'include',
+  });
+  removeToken();
+};

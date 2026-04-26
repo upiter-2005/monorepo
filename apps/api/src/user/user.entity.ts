@@ -36,7 +36,7 @@ export class User {
   createdAt?: Date;
 
   @UpdateDateColumn()
-  lastLoginAt?: Date;
+  lastLoginAt: Date;
 
   @OneToMany(() => Session, (session) => session.user)
   sessions: Session[];

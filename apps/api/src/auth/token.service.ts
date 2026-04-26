@@ -1,9 +1,11 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import jwt from 'jsonwebtoken';
 import { TokenRepository } from './token.repository';
 import { User } from '../user/user.entity';
 import { UserRepository } from '../user/user.repository';
-import { SECRET } from '../constants/jwtSecrets';
+import { EXPIRED, SECRET } from '../constants/jwtSecrets';
+import { RefreshReturnTokens, SessionTokens, TokenPayload } from './auth.types';
+import { DeleteResult } from 'typeorm';
 
 @Injectable()
 export class TokenService {
@@ -12,71 +14,46 @@ export class TokenService {
     private userRepository: UserRepository,
   ) {}
 
-  async generate(user: User) {
-    const { id, email, role } = user;
-    const payload = {
-      sub: id,
-      email,
-      role,
-    };
-
+  async generate(payload: TokenPayload): Promise<SessionTokens> {
     const accessToken = jwt.sign(payload, SECRET.ACCESS, {
-      expiresIn: '1m',
+      expiresIn: EXPIRED.ACCESS,
     });
 
     const refreshToken = jwt.sign(payload, SECRET.REFRESH, {
-      expiresIn: '5m',
+      expiresIn: EXPIRED.REFRESH,
     });
 
     return { accessToken, refreshToken };
   }
 
-  async verify(token: string) {
-    const isTokenValid = jwt.verify(token, SECRET.REFRESH);
-
-    return isTokenValid;
+  verify(token: string): string | jwt.JwtPayload {
+    return jwt.verify(token, SECRET.REFRESH);
   }
 
-  async create(user: User, refreshToken: string) {
-    await this.tokenRepository.delete(user.id);
-    return this.tokenRepository.create(user, refreshToken);
+  async create(id: string, refreshToken: string): Promise<RefreshReturnTokens> {
+    await this.tokenRepository.deleteByUserId(id);
+    return this.tokenRepository.create(id, refreshToken);
   }
 
-  async refresh(refreshToken: string) {
-    if (!refreshToken) {
-      throw new UnauthorizedException('Refresh token not found');
-    }
-
-    const isValid = await this.verify(refreshToken);
-
-    if (!isValid) {
-      throw new UnauthorizedException('Invalid refresh token');
-    }
-
-    const session = await this.tokenRepository.findByRefreshToken(refreshToken);
-
-    if (!session) {
-      throw new UnauthorizedException('Session not found, you should login again');
-    }
-
-    const { user_id } = session;
+  async refresh(refreshToken: string, user_id: string): Promise<TokenPayload & SessionTokens> {
     const user = await this.userRepository.findById(user_id);
 
     if (!user) {
       throw new Error('User not found');
     }
 
-    const tokens = await this.generate(user);
-    await this.tokenRepository.create(user, tokens.refreshToken);
+    const payload = { email: user.email, role: user.role, sub: user.id };
+    const tokens = await this.generate(payload);
+    await this.tokenRepository.create(user.id, tokens.refreshToken);
 
-    return { ...user, ...tokens };
+    return { ...payload, ...tokens };
   }
 
-  async delete(user_id: string) {
-    return this.tokenRepository.delete(user_id);
+  async delete(user_id: string): Promise<DeleteResult> {
+    return this.tokenRepository.deleteByUserId(user_id);
   }
 
-  async deleteByToken(token: string) {
+  async deleteByToken(token: string): Promise<DeleteResult> {
     return this.tokenRepository.deleteByToken(token);
   }
 }
