@@ -6,7 +6,14 @@ import { createSearchParams } from '../helpers/createSearchParams';
 
 type QueryParams = Params & Pagination;
 
-export function useQueryParams(initialParams: Params, pagination: Pagination) {
+type UseQueryParamsProps = {
+  params: QueryParams;
+  setParams: React.Dispatch<React.SetStateAction<QueryParams>>;
+  changeQuery: (params: Params, pagination: Pagination) => void;
+  query: string;
+};
+
+export function useQueryParams(initialParams: Params, pagination: Pagination): UseQueryParamsProps {
   const [params, setParams] = useState<QueryParams>({ ...initialParams, ...pagination });
   const [query, setQuery] = useState<string>(
     createSearchParams({ ...initialParams, ...pagination }),

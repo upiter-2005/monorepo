@@ -1,5 +1,5 @@
 import { IsEmail, IsIn, IsOptional, IsString } from 'class-validator';
-import * as types from '@org/types';
+import type { UserRole } from '@org/types';
 
 export class LoginDto {
   @IsEmail()
@@ -31,7 +31,7 @@ export class AuthorizedDto {
   email: string;
 
   @IsIn(['user', 'admin'])
-  role: types.UserRole;
+  role: UserRole;
 
   @IsString()
   accessToken: string;

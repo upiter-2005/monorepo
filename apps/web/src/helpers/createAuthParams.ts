@@ -1,4 +1,4 @@
-export const createAuthParams = (init: RequestInit = {}, accessToken: string) => {
+export const createAuthParams = (init: RequestInit = {}, accessToken: string): RequestInit => {
   return {
     ...init,
     credentials: 'include',

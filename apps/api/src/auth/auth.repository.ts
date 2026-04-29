@@ -15,7 +15,7 @@ export class AuthRepository {
     return this.repository.findOneBy({ email });
   }
 
-  async updateLastLoginAt(userId: string, lastLoginAt: Date) {
+  async updateLastLoginAt(userId: string, lastLoginAt: Date): Promise<void> {
     await this.repository.update(userId, { lastLoginAt });
   }
 }

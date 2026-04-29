@@ -1,9 +1,11 @@
-export const SESSION_COOKIE_CONGIG = {
+import { MAX_COOKIE_AGE } from './jwtSecrets';
+
+export const SESSION_COOKIE_CONFIG = {
   httpOnly: true,
   sameSite: 'lax',
   secure: false,
   path: '/',
-  maxAge: 7 * 24 * 60 * 60 * 1000,
+  maxAge: MAX_COOKIE_AGE,
 } as const;
 
 export const DELETE_COOKIE_CONGIG = {

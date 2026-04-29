@@ -12,3 +12,12 @@ export const ROLES = {
   USER: 'user',
   ADMIN: 'admin',
 } as const;
+
+export const STATUS: Record<string, number> = {
+  OK: 200,
+  REDIRECT: 302,
+  UNAUTHORIZED: 401,
+  FORBIDDEN: 403,
+  NOT_FOUND: 404,
+  INTERNAL_SERVER_ERROR: 500,
+} as const;

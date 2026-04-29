@@ -4,13 +4,20 @@ import { User } from '@org/types';
 
 import { fetchUsers } from '../client/user';
 
-export function useUsers(searchQuery: string) {
+type UseUsersProps = {
+  users: User[];
+  total: number;
+  isLoading: boolean;
+  error: string | null;
+};
+
+export function useUsers(searchQuery: string): UseUsersProps {
   const [users, setUsers] = useState<User[]>([]);
   const [total, setTotal] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const refetch = async () => {
+  const refetch = async (): Promise<void> => {
     try {
       setIsLoading(true);
       setError(null);

@@ -1,9 +1,8 @@
-import { API_URL } from '../constants/apiUrls';
+import { apiClient } from './apiClient';
 import { setToken } from '../helpers/token';
 
 export async function refreshSession(): Promise<string> {
-  const response = await fetch(`${API_URL}/auth/refresh`, { credentials: 'include' });
-  const data = await response.json();
+  const { data } = await apiClient.get('/auth/refresh');
   setToken(data.accessToken);
 
   return data.accessToken;

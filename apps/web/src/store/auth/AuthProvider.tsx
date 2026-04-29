@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { JSX, useEffect, useState, type ReactNode } from 'react';
 
 import type { CredentialResponseData, LoginPayload } from '@org/types';
 import type { CredentialResponse } from '@react-oauth/google';
@@ -16,18 +16,18 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
   const navigate = useNavigate();
   const [userData, setUserData] = useState<CredentialResponseData>({});
 
-  const cleanToken = async () => {
+  const cleanToken = async (): Promise<void> => {
     googleLogout();
     removeToken();
     logout();
     navigate(ROUTES.LOGIN);
   };
 
-  const handleSuccess = async (credentialResponseData: CredentialResponse) => {
+  const handleSuccess = async (credentialResponseData: CredentialResponse): Promise<void> => {
     const crd = credentialResponseData.credential;
     if (crd) {
       const decoded: CredentialResponse & LoginPayload = jwtDecode(crd);
@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   useEffect(() => {
-    const setupToken = () => {
+    const setupToken = (): void => {
       const credentialHash = getToken();
       if (credentialHash) {
         const decodedToken: CredentialResponseData =

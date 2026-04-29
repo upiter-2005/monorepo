@@ -1,3 +1,5 @@
+import { JSX } from 'react';
+
 import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './components/Navigation';
@@ -6,7 +8,7 @@ import Home from './pages/HomePage';
 import Login from './pages/LoginPage';
 import UsersPage from './pages/UsersPage';
 
-function App() {
+function App(): JSX.Element {
   return (
     <div>
       <Navbar />

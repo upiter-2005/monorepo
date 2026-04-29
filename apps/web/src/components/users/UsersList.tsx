@@ -1,10 +1,10 @@
 import { User } from '@org/types';
 
-interface UsersList {
+interface UsersListProps {
   users: User[];
 }
 
-export const UsersList: React.FC<UsersList> = ({ users }) => {
+export const UsersList: React.FC<UsersListProps> = ({ users }) => {
   return (
     <div className="flex justify-center items-center ">
       <ul>

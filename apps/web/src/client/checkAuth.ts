@@ -1,10 +1,16 @@
+import { STATUS } from '@org/constants';
+
 import { refreshSession } from './session';
-import { STATUS } from '../constants/status';
 import { createAuthParams } from '../helpers/createAuthParams';
 import { getToken, removeToken } from '../helpers/token';
 
 export async function checkAuth(url: string, init: RequestInit = {}): Promise<Response> {
-  let accessToken = getToken() || '';
+  let accessToken = getToken();
+
+  if (!accessToken) {
+    throw new Error('No access token found');
+  }
+
   let params = createAuthParams({ ...init }, accessToken);
 
   let response = await fetch(url, { ...params });

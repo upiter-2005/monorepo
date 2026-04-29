@@ -13,11 +13,11 @@ const Login: React.FC = () => {
   const [openError, setOpenError] = useState(false);
   const [fetchData, setFetchData] = useState<any>();
 
-  const handleError = () => {
+  const handleError = (): void => {
     setOpenError(true);
   };
 
-  const fetchFromNest = async () => {
+  const fetchFromNest = async (): Promise<void> => {
     const response = await fetch(`${HOST}/api`);
     const data = await response.json();
     setFetchData(data);

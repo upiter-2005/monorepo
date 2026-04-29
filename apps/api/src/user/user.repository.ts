@@ -4,6 +4,7 @@ import { User } from './user.entity';
 import { Params, Pagination } from '@org/types';
 import { UserCreateDto } from './user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { UsersReturn } from './user.types';
 
 @Injectable()
 export class UserRepository {
@@ -12,7 +13,7 @@ export class UserRepository {
     private readonly repository: Repository<User>,
   ) {}
 
-  async findByParam(params: Partial<Params>, pagination: Pagination) {
+  async findByParam(params: Partial<Params>, pagination: Pagination): Promise<UsersReturn> {
     const { search, sortBy, order } = params;
     const { page, limit } = pagination;
 
@@ -36,15 +37,15 @@ export class UserRepository {
     };
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User | null> {
     return this.repository.findOne({ where: { email } });
   }
 
-  async findById(id: string) {
+  async findById(id: string): Promise<User | null> {
     return this.repository.findOne({ where: { id } });
   }
 
-  async create(payload: UserCreateDto) {
+  async create(payload: UserCreateDto): Promise<User> {
     const { email, role } = payload;
     const user = this.repository.create({
       email,
@@ -55,7 +56,7 @@ export class UserRepository {
     return this.repository.save(user);
   }
 
-  async save(user: User) {
+  async save(user: User): Promise<User> {
     return this.repository.save(user);
   }
 }

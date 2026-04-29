@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { UserRepository } from '../user/user.repository';
 import { ROLE } from '../constants/roles';
-import { LoginPayload } from './auth.types';
+import { LoginPayload, LoginUser, RegisterUser } from './auth.types';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +11,7 @@ export class AuthService {
     private userRepository: UserRepository,
   ) {}
 
-  async login(payload: LoginPayload) {
+  async login(payload: LoginPayload): Promise<LoginUser> {
     const { email } = payload;
     const user = await this.authRepository.findByEmail(email);
     const lastLoginAt = new Date();
@@ -27,13 +27,11 @@ export class AuthService {
     return user;
   }
 
-  async register(email: string, lastLoginAt: Date) {
-    const user = await this.userRepository.create({
+  async register(email: string, lastLoginAt: Date): Promise<RegisterUser> {
+    return await this.userRepository.create({
       email,
       role: ROLE.USER,
       lastLoginAt,
     });
-
-    return user;
   }
 }

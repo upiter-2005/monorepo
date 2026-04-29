@@ -1,4 +1,5 @@
 import { UserRole } from '@org/types';
+import { User } from '../user/user.entity';
 
 export type LogoutDto = { status: number };
 
@@ -18,7 +19,16 @@ export interface SessionTokens {
   refreshToken: string;
 }
 
-export type RefreshReturnTokens = {
+export type RefreshReturnToken = {
   user_id: string;
   refreshToken: string;
+};
+
+export type LoginUser = User;
+export type RegisterUser = User;
+
+export type verifyJwtPayload = {
+  userId: string;
+  email: string;
+  role: string;
 };

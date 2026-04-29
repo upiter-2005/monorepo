@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, HttpStatus, UseGuards, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, HttpStatus, UseGuards } from '@nestjs/common';
 import { HttpException } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserCreateDto, UserResponseDto } from './user.dto';
@@ -11,7 +11,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async findAll(@Query() query: UserGetDto, @Req() req: Request): Promise<UserResponseDto> {
+  async findAll(@Query() query: UserGetDto): Promise<UserResponseDto> {
     const { page, limit, search, sortBy, order } = query;
 
     return this.userService.getUsers({ search, sortBy, order }, { page, limit });

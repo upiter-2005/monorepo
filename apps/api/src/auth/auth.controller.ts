@@ -3,17 +3,18 @@ import { AuthService } from './auth.service';
 import { AuthorizedDto, LoginDto } from './auth.dto';
 import type { Response, Request } from 'express';
 import { TokenService } from './token.service';
-import { setRefreshCookie } from '../helpers/set.refresh.cookie';
-import { clearRefreshCookie } from '../helpers/clear.refresh.cookie';
+import { setRefreshCookie } from '../helpers/refresh.cookie';
+import { clearRefreshCookie } from '../helpers/refresh.cookie';
 import { LogoutDto } from './auth.types';
-import { TokenRepository } from './token.repository';
+import { STATUS } from '@org/constants';
+import { UserService } from '../user/user.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly tokenService: TokenService,
-    private readonly tokenRepository: TokenRepository,
+    private readonly userService: UserService,
   ) {}
 
   @Post('login')
@@ -45,23 +46,21 @@ export class AuthController {
       throw new UnauthorizedException('Refresh token not found');
     }
 
-    const isValid = this.tokenService.verify(httpRefreshToken);
-
-    if (!isValid) {
-      throw new UnauthorizedException('Invalid refresh token');
-    }
-
-    const session = await this.tokenRepository.findByRefreshToken(httpRefreshToken);
+    const session = await this.tokenService.findByToken(httpRefreshToken);
 
     if (!session) {
       throw new UnauthorizedException('Session not found, you should login again');
     }
 
-    const { user_id } = session;
+    const user = await this.userService.findById(session.user_id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
 
     const { email, role, accessToken, refreshToken } = await this.tokenService.refresh(
       httpRefreshToken,
-      user_id,
+      { email: user.email, role: user.role, sub: user.id },
     );
 
     setRefreshCookie(res, refreshToken);
@@ -81,6 +80,6 @@ export class AuthController {
 
     clearRefreshCookie(res);
 
-    return { status: 302 };
+    return { status: STATUS.REDIRECT };
   }
 }
