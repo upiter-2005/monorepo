@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { Container, Box } from '@mui/material';
 import { GoogleLogin } from '@react-oauth/google';
@@ -6,32 +6,17 @@ import { GoogleLogin } from '@react-oauth/google';
 import CustomizedSnackbars from '../components/Notification';
 import { useAuth } from '../hooks/useAuth';
 
-const HOST = import.meta.env.VITE_HOST_API;
-
 const Login: React.FC = () => {
   const { handleSuccess } = useAuth();
   const [openError, setOpenError] = useState(false);
-  const [fetchData, setFetchData] = useState<any>();
 
   const handleError = (): void => {
     setOpenError(true);
   };
 
-  const fetchFromNest = async (): Promise<void> => {
-    const response = await fetch(`${HOST}/api`);
-    const data = await response.json();
-    setFetchData(data);
-  };
-  useEffect(() => {
-    fetchFromNest();
-  }, []);
-
   return (
     <>
       <Container className="max-w-[1200px] w-full m-auto">
-        <h2>
-          !!!!Fetch data from Nest server: <b>{fetchData?.message}</b>{' '}
-        </h2>
         <Box className="flex justify-center items-center min-h-[100vh]">
           <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
         </Box>
