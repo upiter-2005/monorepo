@@ -8,6 +8,7 @@ async function bootstrap(): Promise<void> {
   app.enableCors({
     origin: ['http://localhost:4200', 'https://monorepo-api-rho.vercel.app'],
     credentials: true,
+    exposedHeaders: ['x-access-token'],
   });
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);

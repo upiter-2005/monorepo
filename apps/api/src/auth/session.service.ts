@@ -1,15 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import jwt from 'jsonwebtoken';
-import { TokenRepository } from './token.repository';
+import { SessionRepository } from './session.repository';
 import { EXPIRED, SECRET_KEY } from '../constants/jwtSecrets';
 import { RefreshReturnToken, SessionTokens, TokenPayload } from './auth.types';
 import { DeleteResult } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class TokenService {
+export class SessionService {
   constructor(
-    private tokenRepository: TokenRepository,
+    private sessionRepository: SessionRepository,
     private readonly configService: ConfigService,
   ) {}
 
@@ -39,8 +39,8 @@ export class TokenService {
   }
 
   async create(id: string, refreshToken: string): Promise<RefreshReturnToken> {
-    await this.tokenRepository.deleteByUserId(id);
-    return this.tokenRepository.create(id, refreshToken);
+    await this.sessionRepository.deleteByUserId(id);
+    return this.sessionRepository.create(id, refreshToken);
   }
 
   async refresh(
@@ -51,20 +51,20 @@ export class TokenService {
     const payload = { email, role, sub };
     const tokens = await this.generate(payload);
 
-    await this.tokenRepository.create(sub, tokens.refreshToken);
+    await this.sessionRepository.create(sub, tokens.refreshToken);
 
     return { ...payload, ...tokens };
   }
 
   async findByToken(refreshToken: string): Promise<RefreshReturnToken | null> {
-    return this.tokenRepository.findByRefreshToken(refreshToken);
+    return this.sessionRepository.findByRefreshToken(refreshToken);
   }
 
   async delete(user_id: string): Promise<DeleteResult> {
-    return this.tokenRepository.deleteByUserId(user_id);
+    return this.sessionRepository.deleteByUserId(user_id);
   }
 
   async deleteByToken(token: string): Promise<DeleteResult> {
-    return this.tokenRepository.deleteByToken(token);
+    return this.sessionRepository.deleteByToken(token);
   }
 }

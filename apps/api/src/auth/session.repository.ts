@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Session } from './session.entity';
 
 @Injectable()
-export class TokenRepository {
+export class SessionRepository {
   constructor(
     @InjectRepository(Session)
     private readonly repository: Repository<Session>,
