@@ -27,7 +27,7 @@ export type RefreshReturnToken = {
 export type LoginUser = User;
 export type RegisterUser = User;
 
-export type verifyJwtPayload = {
+export type VerifyJwtPayload = {
   userId: string;
   email: string;
   role: string;

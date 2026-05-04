@@ -17,9 +17,7 @@ export class AuthService {
     const lastLoginAt = new Date();
 
     if (!user) {
-      const user = await this.register(email, lastLoginAt);
-
-      return user;
+      return this.register(email, lastLoginAt);
     }
 
     await this.authRepository.updateLastLoginAt(user.id, lastLoginAt);
@@ -28,7 +26,7 @@ export class AuthService {
   }
 
   async register(email: string, lastLoginAt: Date): Promise<RegisterUser> {
-    return await this.userRepository.create({
+    return this.userRepository.create({
       email,
       role: ROLE.USER,
       lastLoginAt,

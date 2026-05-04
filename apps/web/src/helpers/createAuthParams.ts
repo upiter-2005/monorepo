@@ -1,10 +1,14 @@
-export const createAuthParams = (init: RequestInit = {}, accessToken: string): RequestInit => {
+import { AxiosRequestConfig } from 'axios';
+
+export const createAuthParams = (
+  init: RequestInit = {},
+  accessToken: string,
+): AxiosRequestConfig => {
   return {
     ...init,
-    credentials: 'include',
     headers: {
       ...(init.headers || {}),
       Authorization: `Bearer ${accessToken}`,
     },
-  } as RequestInit;
+  } as AxiosRequestConfig;
 };

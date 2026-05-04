@@ -1,22 +1,16 @@
-import { STATUS } from '@org/constants';
+import { AxiosResponse } from 'axios';
 
-import { createAuthParams } from '../helpers/createAuthParams';
+import { client } from './client';
 import { getToken } from '../helpers/token';
 
-export async function checkAuth(url: string, init: RequestInit = {}): Promise<Response> {
+export async function checkAuth(url: string): Promise<AxiosResponse> {
   const accessToken = getToken();
 
   if (!accessToken) {
-    throw new Error('No access token found');
+    return false as unknown as AxiosResponse;
   }
 
-  const params = createAuthParams({ ...init }, accessToken);
-
-  const response = await fetch(url, { ...params });
-
-  if (response.status !== STATUS.UNAUTHORIZED) {
-    return response;
-  }
+  const response = await client.get(url);
 
   return response;
 }

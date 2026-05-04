@@ -17,8 +17,7 @@ export class UserService {
   }
 
   async createUser(payload: UserCreateDto): Promise<UserPayload | null> {
-    const { email } = payload;
-    const user = await this.userRepository.findByEmail(email);
+    const user = await this.userRepository.findByEmail(payload.email);
 
     if (user) {
       return null;

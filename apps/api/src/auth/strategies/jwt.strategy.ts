@@ -3,7 +3,8 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { SECRET_KEY } from '../../constants/jwtSecrets';
-import { verifyJwtPayload } from '../auth.types';
+import { VerifyJwtPayload } from '../auth.types';
+import { TOKEN_ERRORS } from '@org/constants';
 
 type JwtPayload = {
   sub: string;
@@ -17,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const secret = configService.get<string>(SECRET_KEY.ACCESS);
 
     if (!secret) {
-      throw new Error('JWT_ACCESS_SECRET is not defined');
+      throw new Error(TOKEN_ERRORS.JWT_ACCESS_NOT_DEFIND);
     }
 
     super({
@@ -26,7 +27,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: JwtPayload): verifyJwtPayload {
+  validate(payload: JwtPayload): VerifyJwtPayload {
     return {
       userId: payload.sub,
       email: payload.email,

@@ -6,6 +6,8 @@ import { RefreshReturnToken, SessionTokens, TokenPayload } from './auth.types';
 import { DeleteResult } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 
+type VerifyTokenType = string | jwt.JwtPayload | null;
+
 @Injectable()
 export class SessionService {
   constructor(
@@ -14,11 +16,9 @@ export class SessionService {
   ) {}
 
   async generate(payload: TokenPayload): Promise<SessionTokens> {
-    const accessSecret = this.configService.get<string>(SECRET_KEY.ACCESS);
-    const refreshSecret = this.configService.get<string>(SECRET_KEY.REFRESH);
-    if (!accessSecret || !refreshSecret) {
-      throw new Error('JWT secrets are not defined');
-    }
+    const accessSecret = this.configService.get<string>(SECRET_KEY.ACCESS) as string;
+    const refreshSecret = this.configService.get<string>(SECRET_KEY.REFRESH) as string;
+
     const accessToken = jwt.sign(payload, accessSecret, {
       expiresIn: EXPIRED.ACCESS,
     });
@@ -30,7 +30,7 @@ export class SessionService {
     return { accessToken, refreshToken };
   }
 
-  verify(token: string): string | jwt.JwtPayload | null {
+  verify(token: string): VerifyTokenType {
     const refreshSecret = this.configService.get<string>(SECRET_KEY.REFRESH);
     if (refreshSecret) {
       return jwt.verify(token, refreshSecret);
@@ -47,13 +47,11 @@ export class SessionService {
     refreshToken: string,
     tokenPayload: TokenPayload,
   ): Promise<TokenPayload & SessionTokens> {
-    const { email, role, sub } = tokenPayload;
-    const payload = { email, role, sub };
-    const tokens = await this.generate(payload);
+    const tokens = await this.generate(tokenPayload);
 
-    await this.sessionRepository.create(sub, tokens.refreshToken);
+    await this.sessionRepository.create(tokenPayload.sub, tokens.refreshToken);
 
-    return { ...payload, ...tokens };
+    return { ...tokenPayload, ...tokens };
   }
 
   async findByToken(refreshToken: string): Promise<RefreshReturnToken | null> {

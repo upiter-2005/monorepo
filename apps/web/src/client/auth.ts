@@ -1,10 +1,10 @@
 import { LoginResponse } from '@org/types';
 
-import { apiClient } from './apiClient';
+import { client } from './client';
 import { removeToken, setToken } from '../helpers/token';
 
 export async function login(email: string): Promise<LoginResponse> {
-  const { data } = await apiClient.post('/auth/login', { email });
+  const { data } = await client.post('/auth/login', { email });
 
   setToken(data.accessToken);
 
@@ -12,6 +12,6 @@ export async function login(email: string): Promise<LoginResponse> {
 }
 
 export const logout = async (): Promise<void> => {
-  await apiClient.get('/auth/logout');
+  await client.get('/auth/logout');
   removeToken();
 };
