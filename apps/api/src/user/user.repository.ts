@@ -46,9 +46,10 @@ export class UserRepository {
   }
 
   async create(payload: UserCreateDto): Promise<User> {
-    const { email, role } = payload;
+    const { email, firstName, role } = payload;
     const user = this.repository.create({
       email,
+      firstName,
       role,
       lastLoginAt: new Date(),
     });

@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import jwt from 'jsonwebtoken';
 import { SessionRepository } from './session.repository';
 import { EXPIRED, SECRET_KEY } from '../constants/jwtSecrets';
-import { RefreshReturnToken, SessionTokens, TokenPayload } from './auth.types';
+import { RefreshReturnToken, ReturnTokens, SessionTokens, TokenPayload } from './auth.types';
 import { DeleteResult } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
+import { UserRole } from '@org/types';
 
 type VerifyTokenType = string | jwt.JwtPayload | null;
 
@@ -38,9 +39,16 @@ export class SessionService {
     return null;
   }
 
-  async create(id: string, refreshToken: string): Promise<RefreshReturnToken> {
+  async create(id: string, email: string, role: UserRole): Promise<ReturnTokens> {
+    const { accessToken, refreshToken } = await this.generate({
+      email,
+      role,
+      sub: id,
+    });
     await this.sessionRepository.deleteByUserId(id);
-    return this.sessionRepository.create(id, refreshToken);
+    await this.sessionRepository.create(id, refreshToken);
+
+    return { accessToken, refreshToken, user_id: id };
   }
 
   async refresh(
@@ -48,7 +56,6 @@ export class SessionService {
     tokenPayload: TokenPayload,
   ): Promise<TokenPayload & SessionTokens> {
     const tokens = await this.generate(tokenPayload);
-
     await this.sessionRepository.create(tokenPayload.sub, tokens.refreshToken);
 
     return { ...tokenPayload, ...tokens };

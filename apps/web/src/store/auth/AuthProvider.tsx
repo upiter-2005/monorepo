@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
     const crd = credentialResponseData.credential;
     if (crd) {
       const decoded: CredentialResponse & LoginPayload = jwtDecode(crd);
-      const { accessToken } = await login(decoded.email);
+      const { accessToken } = await login(decoded.email, decoded.name);
       setToken(accessToken);
       if (decoded) navigate(ROUTES.HOME);
     }

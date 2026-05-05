@@ -39,6 +39,7 @@ export type Pagination = {
 
 export interface LoginPayload {
   email: string;
+  name: string;
 }
 
 export type LoginResponse = {

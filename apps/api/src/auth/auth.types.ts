@@ -5,7 +5,7 @@ export type LogoutDto = { status: number };
 
 export type LoginPayload = {
   email: string;
-  firstName?: string;
+  firstName: string;
 };
 
 export interface TokenPayload {
@@ -24,7 +24,10 @@ export type RefreshReturnToken = {
   refreshToken: string;
 };
 
-export type LoginUser = User;
+export type ReturnTokens = {
+  accessToken: string;
+} & RefreshReturnToken;
+
 export type RegisterUser = User;
 
 export type VerifyJwtPayload = {
