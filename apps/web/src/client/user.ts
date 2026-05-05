@@ -1,22 +1,22 @@
 import { FetchUsersPayload } from '@org/types';
 
-import { checkAuth } from './checkAuth';
+import { client } from './client';
 import { createSearchParams } from '../helpers/createSearchParams';
-import { setToken } from '../helpers/token';
+
+type ResposeFetchedUsers = {
+  users: FetchUsersPayload[];
+  totalCount: number;
+  newAccessToken: string;
+};
 
 export async function fetchUsers(
   query: string = createSearchParams(),
-): Promise<{ users: FetchUsersPayload[]; totalCount: number }> {
-  const response = await checkAuth(`/users?${query}`);
-
-  const newAccessToken = response.headers.get('x-access-token');
-
-  if (response !== null) {
-    setToken(newAccessToken);
-  }
+): Promise<ResposeFetchedUsers> {
+  const response = await client.get(`/users?${query}`);
+  const newAccessToken = response.headers['x-access-token'];
 
   const res = await response.data;
   const { data: users, totalCount } = res;
 
-  return { users, totalCount };
+  return { users, totalCount, newAccessToken };
 }

@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { TOKEN_ERRORS } from '@org/constants';
 import { User } from '@org/types';
+import { useNavigate } from 'react-router-dom';
 
 import { fetchUsers } from '../client/user';
+import { ROUTES } from '../constants/routes';
+import { getToken, setToken } from '../helpers/token';
 
 type UseUsersProps = {
   users: User[];
@@ -17,18 +21,31 @@ export function useUsers(searchQuery: string): UseUsersProps {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+
   const refetch = async (): Promise<void> => {
     try {
       setIsLoading(true);
       setError(null);
 
-      const { users, totalCount } = await fetchUsers(searchQuery);
+      const accessToken = getToken();
 
+      if (!accessToken) {
+        throw new Error(TOKEN_ERRORS.TOKEN_MISSING);
+      }
+
+      const { users, totalCount, newAccessToken } = await fetchUsers(searchQuery);
+
+      setToken(newAccessToken);
       setUsers(users);
       setTotal(totalCount);
       setIsLoading(false);
     } catch (err) {
       setError((err as Error).message);
+      console.log(err);
+      navigate(ROUTES.LOGIN);
+    } finally {
+      setIsLoading(false);
     }
   };
 
