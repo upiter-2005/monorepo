@@ -7,6 +7,7 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
+import { OrderStatus, OrderType } from '@org/types';
 
 @Entity()
 export class Order {
@@ -26,10 +27,10 @@ export class Order {
   amount: number;
 
   @Column({ type: 'varchar' })
-  type: number;
+  type: OrderType;
 
   @Column({ type: 'varchar' })
-  status: string;
+  status: OrderStatus;
 
   @CreateDateColumn()
   time: Date;

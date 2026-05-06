@@ -18,6 +18,11 @@ export const PAIR_ORDER_TYPE = {
   SELL: 'sell',
 } as const;
 
+export const PAIR_ORDER_STATUS = {
+  PENDING: 'pending',
+  DONE: 'done',
+} as const;
+
 export const STATUS: Record<string, number> = {
   OK: 200,
   REDIRECT: 302,
