@@ -1,4 +1,4 @@
-import { ORDER, SORT_BY, ROLES } from '@org/constants';
+import { ORDER, SORT_BY, ROLES, PAIR_ORDER_TYPE } from '@org/constants';
 
 export interface CredentialResponseData {
   email?: string;
@@ -11,6 +11,8 @@ export interface CredentialResponseData {
 export type UserRole = typeof ROLES.USER | typeof ROLES.ADMIN;
 export type SortBy = typeof SORT_BY.CREATED_AT | typeof SORT_BY.LAST_LOGIN;
 export type Order = typeof ORDER.ASC | typeof ORDER.DESC;
+
+export type OrderType = typeof PAIR_ORDER_TYPE.BUY | typeof PAIR_ORDER_TYPE.SELL;
 
 export type User = {
   id: string;

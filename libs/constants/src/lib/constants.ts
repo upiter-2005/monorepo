@@ -13,6 +13,11 @@ export const ROLES = {
   ADMIN: 'admin',
 } as const;
 
+export const PAIR_ORDER_TYPE = {
+  BUY: 'buy',
+  SELL: 'sell',
+} as const;
+
 export const STATUS: Record<string, number> = {
   OK: 200,
   REDIRECT: 302,
