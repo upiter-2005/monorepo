@@ -8,9 +8,9 @@ import { Order } from './order.entity';
 export class OrderService {
   constructor(private orderRepository: OrderRepository) {}
 
-  //   async getOrders(params: UserParamDto, pagination: UserPaginationDto): Promise<UsersReturn> {
-  //    // return this.orderRepository.findByParam(params, pagination);
-  //   }
+  async findOrdersByUser(user_id: string): Promise<Order[] | null> {
+    return this.orderRepository.findBy(user_id);
+  }
 
   async createOrder(payload: OrderPayload): Promise<Order> {
     const createDate = new Date();

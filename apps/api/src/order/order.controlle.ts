@@ -17,6 +17,14 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @UseGuards(JwtAuthGuard)
+  @Get('')
+  async getOrders(@Req() req: RequestWithUser) {
+    const { userId } = req.user;
+
+    return this.orderService.findOrdersByUser(userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Post('')
   async create(
     @Body() payload: OrderCreateDto,
