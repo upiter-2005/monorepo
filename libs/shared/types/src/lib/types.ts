@@ -36,3 +36,14 @@ export type Pagination = {
   page: number;
   limit: number;
 };
+
+export interface LoginPayload {
+  email: string;
+  name: string;
+}
+
+export type LoginResponse = {
+  email: string;
+  role: UserRole;
+  accessToken: string;
+};

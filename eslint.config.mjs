@@ -10,6 +10,7 @@ export default [
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
     rules: {
+      '@typescript-eslint/explicit-function-return-type': 'error',
       '@nx/enforce-module-boundaries': [
         'error',
         {

@@ -1,14 +1,42 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Get, Req, Res, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto } from './auth.dto';
-import { User } from '../user/user.entity';
+import { AuthorizedDto, LoginDto } from './auth.dto';
+import type { Response, Request } from 'express';
+import { SessionService } from './session.service';
+import { setRefreshCookie } from '../helpers/cookie';
+import { clearRefreshCookie } from '../helpers/cookie';
+import { TOKEN_ERRORS } from '@org/constants';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly sessionService: SessionService,
+  ) {}
 
   @Post('login')
-  async login(@Body() body: LoginDto): Promise<User> {
-    return this.authService.login(body);
+  async login(
+    @Body() payload: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<AuthorizedDto> {
+    const { id, email, role } = await this.authService.login(payload);
+    const { refreshToken, accessToken } = await this.sessionService.create(id, email, role);
+
+    setRefreshCookie(res, refreshToken);
+
+    return { email, role, accessToken };
+  }
+
+  @Get('logout')
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response): Promise<void> {
+    const requestRefreshToken = req.cookies.refreshToken;
+
+    if (!requestRefreshToken) {
+      throw new UnauthorizedException(TOKEN_ERRORS.REFRESH_TOKEN_NOT_FOUND);
+    }
+
+    await this.sessionService.deleteByToken(requestRefreshToken);
+
+    clearRefreshCookie(res);
   }
 }

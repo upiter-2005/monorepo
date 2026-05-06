@@ -1,4 +1,6 @@
-export function OrgUi() {
+import { JSX } from 'react';
+
+export function OrgUi(): JSX.Element {
   return (
     <div>
       <h1>Welcome to OrgUi1231231!</h1>

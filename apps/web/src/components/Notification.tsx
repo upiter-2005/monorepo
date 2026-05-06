@@ -4,10 +4,16 @@ import Alert from '@mui/material/Alert';
 import Snackbar, { type SnackbarCloseReason } from '@mui/material/Snackbar';
 import { useTranslation } from 'react-i18next';
 
-export default function CustomizedSnackbars({ open = false }) {
+type CustomizedSnackbarsProps = {
+  open?: boolean;
+};
+const CustomizedSnackbars: React.FC<CustomizedSnackbarsProps> = ({ open = false }) => {
   const [isOpen, setIsOpen] = React.useState(open);
   const { t } = useTranslation();
-  const handleClose = (_event?: React.SyntheticEvent | Event, reason?: SnackbarCloseReason) => {
+  const handleClose = (
+    _event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason,
+  ): void => {
     if (reason === 'clickaway') {
       return;
     }
@@ -24,4 +30,5 @@ export default function CustomizedSnackbars({ open = false }) {
       </Snackbar>
     </div>
   );
-}
+};
+export default CustomizedSnackbars;

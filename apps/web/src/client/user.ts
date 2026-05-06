@@ -1,12 +1,22 @@
 import { FetchUsersPayload } from '@org/types';
 
-import { API_URL } from '../constants/apiUrls';
+import { client } from './client';
 import { createSearchParams } from '../helpers/createSearchParams';
+
+type ResposeFetchedUsers = {
+  users: FetchUsersPayload[];
+  totalCount: number;
+  newAccessToken: string;
+};
 
 export async function fetchUsers(
   query: string = createSearchParams(),
-): Promise<{ data: FetchUsersPayload[]; totalCount: number }> {
-  const response = await fetch(`${API_URL}/users?${query}`);
+): Promise<ResposeFetchedUsers> {
+  const response = await client.get(`/users?${query}`);
+  const newAccessToken = response.headers['x-access-token'];
 
-  return response.json();
+  const res = await response.data;
+  const { data: users, totalCount } = res;
+
+  return { users, totalCount, newAccessToken };
 }

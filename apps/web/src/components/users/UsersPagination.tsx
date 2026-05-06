@@ -7,7 +7,7 @@ type Props = {
   onChange: (page: number) => void;
 };
 
-export const UsersPagination = ({ page = 1, totalPages = 1, onChange }: Props) => {
+export const UsersPagination: React.FC<Props> = ({ page = 1, totalPages = 1, onChange }) => {
   return (
     <Stack spacing={2} alignItems="center">
       <Pagination
