@@ -5,6 +5,7 @@ import { TRADE_TYPE } from '@org/constants';
 import { WS_URL } from '../constants/WsUrls';
 import { formatPrice } from '../helpers/formatPrice';
 import { mappingAskBid } from '../helpers/mappingAskBid';
+import { useAppSelector } from '../store/trade/hooks';
 
 type UseWSPricesProps = {
   asks: JSX.Element[];
@@ -19,9 +20,11 @@ export function useWsPrices(): UseWSPricesProps {
   const [priceMoving, setPricMoving] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const { currency, exchangeTo } = useAppSelector((state) => state.activePair);
+
   useEffect(() => {
     setLoading(false);
-    const trades = new WebSocket(`${WS_URL}/${`btcusdt`}@depth20@1000ms`);
+    const trades = new WebSocket(`${WS_URL}/${currency + exchangeTo}@depth20@1000ms`);
 
     trades.addEventListener('message', (e) => {
       const response = JSON.parse(e.data);
@@ -32,7 +35,7 @@ export function useWsPrices(): UseWSPricesProps {
       setLoading(true);
     });
 
-    const priceSocket = new WebSocket(`${WS_URL}/${`btcusdt`}@trade`);
+    const priceSocket = new WebSocket(`${WS_URL}/${currency + exchangeTo}@trade`);
 
     priceSocket.addEventListener('message', (e) => {
       const res = JSON.parse(e.data);
@@ -44,7 +47,7 @@ export function useWsPrices(): UseWSPricesProps {
       trades.close();
       priceSocket.close();
     };
-  }, []);
+  }, [currency, exchangeTo]);
 
   return {
     asks,
