@@ -23,6 +23,11 @@ export const PAIR_ORDER_STATUS = {
   DONE: 'done',
 } as const;
 
+export const TRADE_TYPE = {
+  ASK: 'ask',
+  BID: 'bid',
+} as const;
+
 export const STATUS: Record<string, number> = {
   OK: 200,
   REDIRECT: 302,

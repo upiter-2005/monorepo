@@ -2,6 +2,7 @@
   "menu_items": {
     "home": "Home",
     "login": "Login",
+    "trade": "Trade",
     "logout": "Logout",
     "en": "en",
     "ua": "ua"
