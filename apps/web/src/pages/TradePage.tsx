@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import { Ask } from '../components/trade/Ask';
 import { Bid } from '../components/trade/Bid';
 import { ChartWidget } from '../components/trade/Chart';
+import { Currencies } from '../components/trade/Currencies';
 import { PriceMoving } from '../components/trade/PriceMoving';
 import { useAppDispatch } from '../store/trade/hooks';
 import { setCurrency } from '../store/trade/slices/activePairSlice';
@@ -41,7 +42,9 @@ const Trade: React.FC = () => {
         <ChartWidget />
       </div>
       <div className="w-[330px]">
-        <ul className="border border-[#e3e3e3]"></ul>
+        <ul className="border border-[#e3e3e3]">
+          <Currencies />
+        </ul>
       </div>
     </div>
   );
