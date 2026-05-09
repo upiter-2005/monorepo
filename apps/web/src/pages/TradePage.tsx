@@ -29,12 +29,11 @@ const Trade: React.FC = () => {
   return (
     <div className="w-full max-w-[1230px] m-auto flex gap-4">
       <div className="w-[330px] flex flex-col">
-        <ul className="border border-[#e3e3e3]">
+        <ul className="border border-[#e3e3e3] h-[250px] overflow-y-scroll">
           <Ask />
         </ul>
-
         <PriceMoving />
-        <ul className="border border-[#e3e3e3]">
+        <ul className="border border-[#e3e3e3] h-[250px] overflow-y-scroll">
           <Bid />
         </ul>
       </div>

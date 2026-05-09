@@ -24,7 +24,7 @@ export function useWsPrices(): UseWSPricesProps {
 
   useEffect(() => {
     setLoading(false);
-    const trades = new WebSocket(`${WS_URL}/${currency + exchangeTo}@depth20@1000ms`);
+    const trades = new WebSocket(`${WS_URL}/${currency + exchangeTo}@depth10@1000ms`);
 
     trades.addEventListener('message', (e) => {
       const response = JSON.parse(e.data);

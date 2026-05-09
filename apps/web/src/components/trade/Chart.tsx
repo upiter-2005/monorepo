@@ -33,7 +33,7 @@ export const ChartWidget: React.FC = () => {
     setCandles((prev) => [
       {
         ...prev[0],
-        data: [...parseData],
+        data: parseData,
       },
     ]);
   };

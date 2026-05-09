@@ -1,9 +1,12 @@
 export const CURRENCY_LIST = [
   'btc',
   'eth',
+  'ton',
   'ltc',
+  'not',
   '1inch',
   'neo',
+  'dogs',
   'xrp',
   'dot',
   'bnb',
@@ -15,7 +18,6 @@ export const CURRENCY_LIST = [
   'avax',
   'rune',
   'vet',
-  'theta',
   'near',
   'sol',
 ];
