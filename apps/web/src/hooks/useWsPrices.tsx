@@ -1,22 +1,21 @@
-import { JSX, useEffect, useState } from 'react';
-
-import { TRADE_TYPE } from '@org/constants';
+import { useEffect, useState } from 'react';
 
 import { WS_URL } from '../constants/WsUrls';
 import { formatPrice } from '../helpers/formatPrice';
-import { mappingAskBid } from '../helpers/mappingAskBid';
 import { useAppSelector } from '../store/trade/hooks';
 
+type AskBidData = [string, string];
+
 type UseWSPricesProps = {
-  asks: JSX.Element[];
-  bids: JSX.Element[];
+  asks: AskBidData[];
+  bids: AskBidData[];
   priceMoving: number;
   loading: boolean;
 };
 
 export function useWsPrices(): UseWSPricesProps {
-  const [asks, setAsks] = useState<JSX.Element[]>([]);
-  const [bids, setBids] = useState<JSX.Element[]>([]);
+  const [asks, setAsks] = useState<AskBidData[]>([]);
+  const [bids, setBids] = useState<AskBidData[]>([]);
   const [priceMoving, setPricMoving] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -24,14 +23,12 @@ export function useWsPrices(): UseWSPricesProps {
 
   useEffect(() => {
     setLoading(false);
-    const trades = new WebSocket(`${WS_URL}/${currency + exchangeTo}@depth10@1000ms`);
+    const trades = new WebSocket(`${WS_URL}/${currency + exchangeTo}@depth20@1000ms`);
 
     trades.addEventListener('message', (e) => {
       const response = JSON.parse(e.data);
-      const mappedAsks = mappingAskBid(response.asks, TRADE_TYPE.ASK);
-      setAsks(mappedAsks);
-      const mappedBids = mappingAskBid(response.bids, TRADE_TYPE.BID);
-      setBids(mappedBids);
+      setAsks(response.asks);
+      setBids(response.bids);
       setLoading(true);
     });
 

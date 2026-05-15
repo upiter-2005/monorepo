@@ -9,6 +9,7 @@ import {
 import { UserRole } from '@org/types';
 import { Session } from '../auth/session.entity';
 import { Order } from '../order/order.entity';
+import { Balance } from '../balance/balance.entity';
 
 @Entity()
 export class User {
@@ -44,4 +45,7 @@ export class User {
 
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
+
+  @OneToMany(() => Balance, (balance) => balance.user)
+  balance: Balance[];
 }

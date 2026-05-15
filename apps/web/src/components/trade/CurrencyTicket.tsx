@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 
+import { Currencies } from '@org/types';
 import { useNavigate } from 'react-router-dom';
 
 import { PRICE_COLORS } from '../../constants/priceColors';
@@ -9,7 +10,7 @@ import { useAppDispatch } from '../../store/trade/hooks';
 import { setCurrency } from '../../store/trade/slices/activePairSlice';
 
 type CurrencyTicketProps = {
-  currency: string;
+  currency: Currencies;
 };
 
 export const CurrencyTicket: React.FC<CurrencyTicketProps> = ({ currency }) => {

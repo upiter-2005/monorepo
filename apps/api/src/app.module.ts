@@ -6,6 +6,7 @@ import { DBConfig } from './db.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { moduleConfig } from './module.config';
 import { OrderModule } from './order/order.module';
+import { BalanceModule } from './balance/balance.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { OrderModule } from './order/order.module';
     UserModule,
     AuthModule,
     OrderModule,
+    BalanceModule,
     TypeOrmModule.forRoot(DBConfig),
   ],
 })

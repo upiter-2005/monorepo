@@ -28,11 +28,17 @@ export const ChartWidget: React.FC = () => {
   ]);
 
   const makeDataChart = async (): Promise<void> => {
+    setCandles([
+      {
+        name: 'candle',
+        data: [],
+      },
+    ]);
     const parseData = await buildChart(currency, exchangeTo, chartInterval);
-    console.log(parseData);
+
     setCandles((prev) => [
       {
-        ...prev[0],
+        name: 'candle',
         data: parseData,
       },
     ]);
@@ -44,17 +50,22 @@ export const ChartWidget: React.FC = () => {
 
   return (
     <>
-      <div>
-        <span>Time:</span>
+      <div className="flex gap-1 items-center">
+        <div className="font-bold">Timefarame:</div>
         {INTERVALS.map((interval) => (
-          <button type="button" key={interval} onClick={() => dispatch(setChartInterval(interval))}>
+          <button
+            type="button"
+            key={interval}
+            onClick={() => dispatch(setChartInterval(interval))}
+            className={`px-2 py-1 bg-indigo-500 ${interval === chartInterval ? 'opacity-100' : 'opacity-50'}`}
+          >
             {interval}
           </button>
         ))}
       </div>
-      {candles && (
+      {candles[0]?.data.length > 0 && (
         <Chart
-          key={`${currency}-${exchangeTo}-${chartInterval}`}
+          key={`${currency}-${exchangeTo}-${chartInterval}-${candles[0]?.data.length}`}
           options={chartSettings}
           series={candles}
           height="440px"

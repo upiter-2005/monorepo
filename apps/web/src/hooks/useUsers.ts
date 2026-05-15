@@ -42,7 +42,7 @@ export function useUsers(searchQuery: string): UseUsersProps {
       setIsLoading(false);
     } catch (err) {
       setError((err as Error).message);
-      console.log(err);
+
       navigate(ROUTES.LOGIN);
     } finally {
       setIsLoading(false);

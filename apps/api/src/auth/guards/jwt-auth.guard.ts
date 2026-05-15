@@ -45,6 +45,11 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
         role: user.role,
         sub: user.id,
       });
+      request.user = {
+        userId: user.id,
+        email: user.email,
+        role: user.role,
+      };
 
       const response = context.switchToHttp().getResponse<Response>();
       setResponseHeader(response, 'x-access-token', accessToken);

@@ -20,6 +20,9 @@
     },
     {
       "path": "./libs/constants"
+    },
+    {
+      "path": "./libs/shared/tranlations 21-02-42-755"
     }
   ]
 }

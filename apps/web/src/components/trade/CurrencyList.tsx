@@ -1,7 +1,8 @@
-import { CurrencyTicket } from './CurrencyTicket';
-import { CURRENCY_LIST } from '../../constants/currencyList';
+import { CURRENCY_LIST } from '@org/constants';
 
-export const Currencies: React.FC = () => {
+import { CurrencyTicket } from './CurrencyTicket';
+
+export const CurrencyList: React.FC = () => {
   return (
     <div>
       <div className="flex justify-between w-full px-2 text-xs font-bold p-2 bg-[#a7a7a7]">

@@ -13,9 +13,7 @@ export const buildChart = async (
   chartInterval: string,
 ): Promise<CandlesPointsType[]> => {
   const chartUrl = createCandlesUrl((currency + exchangeTo).toUpperCase(), chartInterval);
-
   const { data } = await binanceApi.get(chartUrl);
-  console.log(data);
   const parseData: CandlesPointsType[] = [];
 
   data.reverse().forEach((el: string, i: number) => {

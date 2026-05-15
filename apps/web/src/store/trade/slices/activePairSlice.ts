@@ -1,22 +1,23 @@
+import { Currencies } from '@org/types';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 type ActivePairState = {
-  currency: string;
-  exchangeTo: string;
+  currency: Currencies;
+  exchangeTo: Currencies;
   chartInterval: string;
-  clickPrice: number | null;
+  clickPrice: string;
 };
 
 type SetCurrencyPayload = {
-  currency: string;
-  exchangeTo: string;
+  currency: Currencies;
+  exchangeTo: Currencies;
 };
 
 const initialState: ActivePairState = {
-  currency: '',
-  exchangeTo: '',
-  chartInterval: '1d',
-  clickPrice: null,
+  currency: 'btc',
+  exchangeTo: 'usdt',
+  chartInterval: '1h',
+  clickPrice: '0',
 };
 
 export const activePairSlice = createSlice({
@@ -32,7 +33,7 @@ export const activePairSlice = createSlice({
       state.chartInterval = action.payload;
     },
 
-    setClickPrice: (state, action: PayloadAction<number | null>) => {
+    setClickPrice: (state, action: PayloadAction<string>) => {
       state.clickPrice = action.payload;
     },
   },

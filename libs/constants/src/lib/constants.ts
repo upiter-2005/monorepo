@@ -44,3 +44,28 @@ export const TOKEN_ERRORS = {
   JWT_ACCESS_NOT_DEFIND: 'JWT_ACCESS_SECRET is not defined',
   REFRESH_TOKEN_NOT_FOUND: 'Refresh token not found',
 } as const;
+
+export const CURRENCY_LIST = [
+  'btc',
+  'eth',
+  'ton',
+  'ltc',
+  'not',
+  '1inch',
+  'neo',
+  'dogs',
+  'xrp',
+  'dot',
+  'bnb',
+  'qtum',
+  'chz',
+  'link',
+  'rvn',
+  'ada',
+  'avax',
+  'rune',
+  'vet',
+  'near',
+  'sol',
+  'usdt',
+] as const;

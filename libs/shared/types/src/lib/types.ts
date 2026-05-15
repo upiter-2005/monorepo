@@ -5,6 +5,7 @@ import {
   PAIR_ORDER_TYPE,
   PAIR_ORDER_STATUS,
   TRADE_TYPE,
+  CURRENCY_LIST,
 } from '@org/constants';
 
 export interface CredentialResponseData {
@@ -57,4 +58,28 @@ export type LoginResponse = {
   email: string;
   role: UserRole;
   accessToken: string;
+};
+
+export type Currencies = (typeof CURRENCY_LIST)[number];
+
+export type BalanceItem = {
+  currency: Currencies;
+  amount: number;
+};
+
+export type OrderPayload = {
+  pair: string;
+  price: number;
+  amount: number;
+  type: OrderType;
+  status: OrderStatus;
+};
+export type OrderItemType = {
+  id?: string;
+  pair: string;
+  price: number;
+  amount: number;
+  type: OrderType;
+  status: OrderStatus;
+  time: string;
 };

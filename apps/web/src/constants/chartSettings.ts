@@ -34,6 +34,7 @@ export const chartSettings: ApexOptions = {
     tickAmount: 15,
     tooltip: { enabled: false },
     labels: {
+      formatter: (value) => value.toFixed(2),
       style: {
         colors: '#fff',
       },
