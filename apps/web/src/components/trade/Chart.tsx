@@ -1,17 +1,14 @@
 import { useEffect, useState } from 'react';
 
+import { CandlesPointsType } from '@org/types';
 import Chart from 'react-apexcharts';
 
 import { buildChart } from '../../client/candles';
 import { INTERVALS } from '../../constants/chartIntervals';
-import { chartSettings } from '../../constants/chartSettings';
+import { CHART_SETTINGS, CHART_TYPE, DEFAULT_CANDLES } from '../../constants/chartSettings';
 import { useAppSelector, useAppDispatch } from '../../store/trade/hooks';
 import { setChartInterval } from '../../store/trade/slices/activePairSlice';
 
-type CandlesPointsType = {
-  x: Date;
-  y: number[];
-};
 type CandlesType = {
   name: string;
   data: CandlesPointsType[];
@@ -20,25 +17,15 @@ type CandlesType = {
 export const ChartWidget: React.FC = () => {
   const { currency, exchangeTo, chartInterval } = useAppSelector((state) => state.activePair);
   const dispatch = useAppDispatch();
-  const [candles, setCandles] = useState<CandlesType[]>([
-    {
-      name: 'candle',
-      data: [],
-    },
-  ]);
+  const [candles, setCandles] = useState<CandlesType[]>(DEFAULT_CANDLES);
 
   const makeDataChart = async (): Promise<void> => {
-    setCandles([
-      {
-        name: 'candle',
-        data: [],
-      },
-    ]);
+    setCandles(DEFAULT_CANDLES);
     const parseData = await buildChart(currency, exchangeTo, chartInterval);
 
     setCandles((prev) => [
       {
-        name: 'candle',
+        name: CHART_TYPE,
         data: parseData,
       },
     ]);
@@ -66,7 +53,7 @@ export const ChartWidget: React.FC = () => {
       {candles[0]?.data.length > 0 && (
         <Chart
           key={`${currency}-${exchangeTo}-${chartInterval}-${candles[0]?.data.length}`}
-          options={chartSettings}
+          options={CHART_SETTINGS}
           series={candles}
           height="440px"
           type="candlestick"

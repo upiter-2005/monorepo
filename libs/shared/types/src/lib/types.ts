@@ -83,3 +83,8 @@ export type OrderItemType = {
   status: OrderStatus;
   time: string;
 };
+
+export type CandlesPointsType = {
+  x: Date;
+  y: number[];
+};

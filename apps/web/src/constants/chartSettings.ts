@@ -1,6 +1,14 @@
 import type { ApexOptions } from 'apexcharts';
 
-export const chartSettings: ApexOptions = {
+export const CHART_TYPE = 'candle';
+export const DEFAULT_CANDLES = [
+  {
+    name: CHART_TYPE,
+    data: [],
+  },
+];
+
+export const CHART_SETTINGS: ApexOptions = {
   chart: {
     type: 'candlestick',
   },

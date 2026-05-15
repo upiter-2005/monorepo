@@ -1,24 +1,26 @@
-import { JSX, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 
-import { PRICE_COLORS } from '../../constants/priceColors';
+import { PRICE_COLORS, PRICE_MOVING } from '../../constants/priceColors';
 import { useWsPrices } from '../../hooks/useWsPrices';
+
+type PriceMoving = 'up' | 'down';
 
 export const PriceMoving: React.FC = () => {
   const { priceMoving } = useWsPrices();
   const [currentPrice, setCurrentPrice] = useState(priceMoving);
   const [textColor, setTextColor] = useState<string>('');
-  const [icon, setIcon] = useState<JSX.Element>();
+  const [icon, setIcon] = useState<PriceMoving>();
 
   useEffect(() => {
     if (currentPrice > Number(priceMoving)) {
       setTextColor(PRICE_COLORS.RED);
-      setIcon(<ArrowDownwardIcon />);
+      setIcon(PRICE_MOVING.DOWN);
     } else {
       setTextColor(PRICE_COLORS.GREEN);
-      setIcon(<ArrowUpwardIcon />);
+      setIcon(PRICE_MOVING.UP);
     }
     setCurrentPrice(priceMoving);
   }, [priceMoving]);
@@ -26,7 +28,9 @@ export const PriceMoving: React.FC = () => {
   return (
     <div className={`${textColor} text-3xl font-bold flex items-center`}>
       {priceMoving}
-      <span className={` font-bold`}>{icon}</span>
+      <span className="font-bold">
+        {icon === PRICE_MOVING.UP ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
+      </span>
     </div>
   );
 };

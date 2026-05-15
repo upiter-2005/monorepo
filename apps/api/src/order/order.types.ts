@@ -2,15 +2,13 @@ import { OrderStatus, OrderType } from '@org/types';
 import { Order } from './order.entity';
 
 export type OrderPayload = {
-  user_id: string;
+  userId: string;
   pair: string;
   price: number;
   amount: number;
   type: OrderType;
   status: OrderStatus;
+  time?: Date;
 };
 
-export type OrdersReturn = Pick<
-  Order,
-  'id' | 'pair' | 'price' | 'amount' | 'status' | 'time' | 'type'
->;
+export type OrdersReturn = Omit<Order, 'user_id' | 'user'>;

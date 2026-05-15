@@ -8,12 +8,12 @@ import { Order } from './order.entity';
 export class OrderService {
   constructor(private orderRepository: OrderRepository) {}
 
-  async findOrdersByUser(user_id: string): Promise<OrdersReturn[] | null> {
-    return this.orderRepository.findBy(user_id);
+  async findOrdersByUser(userId: string): Promise<OrdersReturn[] | []> {
+    return this.orderRepository.findBy(userId);
   }
 
   async createOrder(payload: OrderPayload): Promise<Order> {
-    const createDate = new Date();
-    return this.orderRepository.create(payload, createDate);
+    const orderPayment = { ...payload, time: new Date() };
+    return this.orderRepository.create(orderPayment);
   }
 }

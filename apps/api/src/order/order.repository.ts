@@ -11,14 +11,14 @@ export class OrderRepository {
     private readonly repository: Repository<Order>,
   ) {}
 
-  async findBy(user_id: string): Promise<Order[] | null> {
-    return this.repository.find({ where: { user_id } });
+  async findBy(userId: string): Promise<Order[] | []> {
+    return this.repository.find({ where: { user_id: userId } });
   }
 
-  async create(payload: OrderPayload, time: Date): Promise<Order> {
-    const { user_id, pair, price, amount, type, status } = payload;
+  async create(payload: OrderPayload): Promise<Order> {
+    const { userId, pair, price, amount, type, status, time } = payload;
     const order = this.repository.create({
-      user_id,
+      user_id: userId,
       pair,
       price,
       amount,

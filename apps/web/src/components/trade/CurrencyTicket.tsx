@@ -21,6 +21,11 @@ export const CurrencyTicket: React.FC<CurrencyTicketProps> = ({ currency }) => {
 
   const navigate = useNavigate();
 
+  const pickPair = (): void => {
+    dispatch(setCurrency({ currency, exchangeTo: 'usdt' }));
+    navigate(`${ROUTES.TRADE}/${currency}usdt`);
+  };
+
   useEffect(() => {
     if (priceChange.toString().includes('-')) {
       setTextColor(PRICE_COLORS.RED);
@@ -32,10 +37,7 @@ export const CurrencyTicket: React.FC<CurrencyTicketProps> = ({ currency }) => {
   return (
     <div
       className="flex justify-between w-full text-[#afafaf] px-2 cursor-pointer text-sm hover:bg-[#a1a1a1] hover:text-[#fff]"
-      onClick={() => {
-        dispatch(setCurrency({ currency, exchangeTo: 'usdt' }));
-        navigate(`${ROUTES.TRADE}/${currency}usdt`);
-      }}
+      onClick={pickPair}
     >
       <div>
         {' '}

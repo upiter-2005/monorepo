@@ -1,37 +1,25 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { OrderCreateDto, OrdersReturnDto } from './order.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
-import type { Request } from 'express';
 import { OrderService } from './order.service';
-
-type RequestWithUser = Request & {
-  user: {
-    userId: string;
-    email: string;
-    role: string;
-  };
-};
+import { User } from '../user/user.decorator';
 
 @Controller('orders')
+@UseGuards(JwtAuthGuard)
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get('')
-  async getOrders(@Req() req: RequestWithUser): Promise<OrdersReturnDto[] | null> {
-    const { userId } = req.user;
-
+  async getOrders(@User('userId') userId: string): Promise<OrdersReturnDto[] | null> {
     return this.orderService.findOrdersByUser(userId);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('')
   async create(
     @Body() payload: OrderCreateDto,
-    @Req() req: RequestWithUser,
+    @User('userId') userId: string,
   ): Promise<OrderCreateDto> {
-    const { userId } = req.user;
-
-    return this.orderService.createOrder({ ...payload, user_id: userId });
+    const orderPayload = { ...payload, userId };
+    return this.orderService.createOrder(orderPayload);
   }
 }
