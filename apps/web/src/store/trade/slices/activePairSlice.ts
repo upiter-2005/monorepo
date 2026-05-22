@@ -1,3 +1,9 @@
+import {
+  DEFAULT_CLICKED_PRICE,
+  DEFAULT_CURRENCY,
+  DEFAULT_EXCHANGE,
+  DEFAULT_INTERVAL,
+} from '@org/constants';
 import { Currencies } from '@org/types';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
@@ -14,10 +20,10 @@ type SetCurrencyPayload = {
 };
 
 const initialState: ActivePairState = {
-  currency: 'btc',
-  exchangeTo: 'usdt',
-  chartInterval: '1h',
-  clickPrice: '0',
+  currency: DEFAULT_CURRENCY,
+  exchangeTo: DEFAULT_EXCHANGE,
+  chartInterval: DEFAULT_INTERVAL,
+  clickPrice: DEFAULT_CLICKED_PRICE,
 };
 
 export const activePairSlice = createSlice({

@@ -1,14 +1,14 @@
 import { Injectable } from '@nestjs/common';
 
 import { OrderRepository } from './order.repository';
-import { OrderPayload, OrdersReturn } from './order.types';
+import { OrderPayload, OrderReturn } from './order.types';
 import { Order } from './order.entity';
 
 @Injectable()
 export class OrderService {
   constructor(private orderRepository: OrderRepository) {}
 
-  async findOrdersByUser(userId: string): Promise<OrdersReturn[] | []> {
+  async findOrdersByUser(userId: string): Promise<OrderReturn[]> {
     return this.orderRepository.findBy(userId);
   }
 

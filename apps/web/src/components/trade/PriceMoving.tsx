@@ -2,14 +2,15 @@ import { useEffect, useState } from 'react';
 
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { PRICE_COLORS } from '@org/constants';
 
-import { PRICE_COLORS, PRICE_MOVING } from '../../constants/priceColors';
-import { useWsPrices } from '../../hooks/useWsPrices';
+import { PRICE_MOVING } from '../../constants/priceColors';
+import { usePrices } from '../../hooks/usePrices';
 
 type PriceMoving = 'up' | 'down';
 
 export const PriceMoving: React.FC = () => {
-  const { priceMoving } = useWsPrices();
+  const { priceMoving } = usePrices();
   const [currentPrice, setCurrentPrice] = useState(priceMoving);
   const [textColor, setTextColor] = useState<string>('');
   const [icon, setIcon] = useState<PriceMoving>();

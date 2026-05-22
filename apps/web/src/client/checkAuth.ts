@@ -3,11 +3,11 @@ import { AxiosResponse } from 'axios';
 import { client } from './client';
 import { getToken } from '../helpers/token';
 
-export async function checkAuth(url: string): Promise<AxiosResponse> {
+export async function checkAuth(url: string): Promise<AxiosResponse | boolean> {
   const accessToken = getToken();
 
   if (!accessToken) {
-    return false as unknown as AxiosResponse;
+    return false;
   }
 
   const response = await client.get(url);

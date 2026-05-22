@@ -1,2 +1,10 @@
-export const createCandlesUrl = (pair: string, interval: string): string =>
-  `/klines?symbol=${pair}&interval=${interval}&limit=100`;
+import { CANDLES_LIMIT } from '../constants/candles';
+
+export const createCandlesUrl = (
+  currency: string,
+  exchangeTo: string,
+  interval: string,
+): string => {
+  const pair = (currency + exchangeTo).toUpperCase();
+  return `/klines?symbol=${pair}&interval=${interval}&limit=${CANDLES_LIMIT}`;
+};

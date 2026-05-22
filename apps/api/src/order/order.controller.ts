@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { OrderCreateDto, OrdersReturnDto } from './order.dto';
+import { OrderCreateDto, OrderReturnDto } from './order.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { OrderService } from './order.service';
 import { User } from '../user/user.decorator';
@@ -10,7 +10,7 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Get('')
-  async getOrders(@User('userId') userId: string): Promise<OrdersReturnDto[] | null> {
+  async getOrders(@User('userId') userId: string): Promise<OrderReturnDto[] | null> {
     return this.orderService.findOrdersByUser(userId);
   }
 

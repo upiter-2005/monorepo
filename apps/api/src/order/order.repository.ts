@@ -11,7 +11,7 @@ export class OrderRepository {
     private readonly repository: Repository<Order>,
   ) {}
 
-  async findBy(userId: string): Promise<Order[] | []> {
+  async findBy(userId: string): Promise<Order[]> {
     return this.repository.find({ where: { user_id: userId } });
   }
 

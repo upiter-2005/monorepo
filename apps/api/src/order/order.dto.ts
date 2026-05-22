@@ -20,7 +20,7 @@ export class OrderCreateDto {
   status: OrderStatus;
 }
 
-export class OrdersReturnDto extends OrderCreateDto {
+export class OrderReturnDto extends OrderCreateDto {
   @IsString({ message: 'Id should be a string' })
   id: string;
 

@@ -69,3 +69,13 @@ export const CURRENCY_LIST = [
   'sol',
   'usdt',
 ] as const;
+
+export const PRICE_COLORS = {
+  RED: 'text-[#ff6237]',
+  GREEN: 'text-[#4d934d]',
+} as const;
+
+export const DEFAULT_CURRENCY = 'btc' as const;
+export const DEFAULT_EXCHANGE = 'usdt' as const;
+export const DEFAULT_INTERVAL = '1h' as const;
+export const DEFAULT_CLICKED_PRICE = '0' as const;

@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit/query/react';
 
 import { API_URL } from '../constants/apiUrls';
+import { getResponseHeaders } from '../helpers/getResponseHeaders';
 import { getToken, setToken } from '../helpers/token';
 
 const rawBaseQuery = fetchBaseQuery({
@@ -30,10 +31,10 @@ export const baseQueryWithTokenSync: BaseQueryFn<
 > = async (args, api, extraOptions) => {
   const result = await rawBaseQuery(args, api, extraOptions);
 
-  const newAccessToken = result.meta?.response?.headers.get('x-access-token');
+  const accessToken = getResponseHeaders(result.meta, 'x-access-token');
 
-  if (newAccessToken) {
-    setToken(newAccessToken);
+  if (accessToken) {
+    setToken(accessToken);
   }
 
   return result;

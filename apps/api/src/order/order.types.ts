@@ -11,4 +11,4 @@ export type OrderPayload = {
   time?: Date;
 };
 
-export type OrdersReturn = Omit<Order, 'user_id' | 'user'>;
+export type OrderReturn = Omit<Order, 'user_id' | 'user'>;

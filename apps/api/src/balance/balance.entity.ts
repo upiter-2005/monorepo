@@ -3,10 +3,6 @@ import { User } from '../user/user.entity';
 
 @Entity()
 export class Balance {
-  // constructor () {
-  //   this.id = '';
-  //   this.user_id = ''
-  // }
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

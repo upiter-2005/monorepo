@@ -8,15 +8,15 @@ import { useAppDispatch, useAppSelector } from '../store/trade/hooks';
 import { setClickPrice } from '../store/trade/slices/activePairSlice';
 
 type UseUsersProps = {
-  amount: string;
+  amount: number;
   amountForSell: number;
   sliderValueHandler: (value: number) => void;
   changeClickedPrice: (price: string) => void;
 };
 
 export function useTrade(balance = 0, tradeType: OrderType): UseUsersProps {
-  const [amount, setAmount] = useState<string>('0'); //autocount to usdt
-  const [amountForSell, setAmountForSell] = useState<number>(0); // picked btc amount
+  const [amount, setAmount] = useState<number>(0);
+  const [amountForSell, setAmountForSell] = useState<number>(0);
   const [sliderValue, setSliderValue] = useState<number>(0);
 
   const dispatch = useAppDispatch();
@@ -26,17 +26,17 @@ export function useTrade(balance = 0, tradeType: OrderType): UseUsersProps {
     sliderValue: number,
     balance: number,
     clickPrice: string,
-  ): string => {
-    if (!balance) return '0';
+  ): number => {
+    if (!balance) return 0;
 
     const pickedUsdtAmount = countPickedUsdtAmount(sliderValue, balance);
 
     if (tradeType === PAIR_ORDER_TYPE.SELL) {
       setAmountForSell(pickedUsdtAmount);
-      return (pickedUsdtAmount * Number(clickPrice)).toFixed(5);
+      return Number((pickedUsdtAmount * Number(clickPrice)).toFixed(5));
     }
 
-    return (pickedUsdtAmount / Number(clickPrice)).toFixed(5);
+    return Number((pickedUsdtAmount / Number(clickPrice)).toFixed(5));
   };
 
   const sliderValueHandler = (value: number): void => {

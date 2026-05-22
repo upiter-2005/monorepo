@@ -16,6 +16,11 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
-    "customConditions": ["@org/source"]
+    "customConditions": ["@org/source"],
+    "baseUrl": ".",
+    "paths": {
+      "@org/types": ["libs/shared/types/src/index.ts"],
+      "@org/constants": ["libs/constants/src/index.ts"]
+    }
   }
 }

@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { Currencies } from '@org/types';
 import { useParams } from 'react-router-dom';
 
-import { Ask } from '../components/trade/Ask';
-import { Bid } from '../components/trade/Bid';
+import { AskList } from '../components/trade/AskList';
+import { BidList } from '../components/trade/BidList';
 import { Buy } from '../components/trade/Buy';
 import { ChartWidget } from '../components/trade/Chart';
 import { CurrencyList } from '../components/trade/CurrencyList';
@@ -14,8 +14,11 @@ import { Sell } from '../components/trade/Sell';
 import { useAppDispatch } from '../store/trade/hooks';
 import { setCurrency } from '../store/trade/slices/activePairSlice';
 
+type Pair = {
+  pair: string;
+};
 const Trade: React.FC = () => {
-  const { pair } = useParams<{ pair: string }>();
+  const { pair } = useParams<Pair>();
 
   const dispatch = useAppDispatch();
 
@@ -42,11 +45,11 @@ const Trade: React.FC = () => {
       <div className="w-full max-w-[1430px] m-auto flex gap-4">
         <div className="w-[330px] flex flex-col">
           <ul className="border border-[#e3e3e3] h-[340px] overflow-y-scroll bg-[#181A20] rounded-lg custom-scrollbar">
-            <Ask />
+            <AskList />
           </ul>
           <PriceMoving />
           <ul className="border border-[#e3e3e3] h-[340px] overflow-y-scroll bg-[#181A20] rounded-lg custom-scrollbar">
-            <Bid />
+            <BidList />
           </ul>
         </div>
         <div className="flex-1 text-xs">

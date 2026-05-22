@@ -1,5 +1,9 @@
 {
   "name": "@org/web",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@org/constants": "workspace:*",
+    "@org/types": "workspace:*"
+  }
 }

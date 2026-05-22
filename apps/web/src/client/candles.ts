@@ -2,21 +2,18 @@ import { CandlesPointsType } from '@org/types';
 
 import { binanceApi } from './client';
 import { createCandlesUrl } from '../helpers/createCandlesUrl';
-import { formatCandlePrices } from '../hooks/formatCandlePrices';
+import { fillCandles } from '../helpers/fillCandles';
 
 export const buildChart = async (
   currency: string,
   exchangeTo: string,
   chartInterval: string,
 ): Promise<CandlesPointsType[]> => {
-  const chartUrl = createCandlesUrl((currency + exchangeTo).toUpperCase(), chartInterval);
-  const { data } = await binanceApi.get(chartUrl);
-  const parseData: CandlesPointsType[] = [];
+  const chartUrl = createCandlesUrl(currency, exchangeTo, chartInterval);
 
-  data.reverse().forEach((candle: string[], i: number) => {
-    const candleData = formatCandlePrices(candle);
-    parseData.push(candleData);
-  });
+  const { data } = await binanceApi.get(chartUrl);
+
+  const parseData = fillCandles(data);
 
   return parseData;
 };

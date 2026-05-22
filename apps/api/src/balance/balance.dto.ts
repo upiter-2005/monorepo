@@ -1,31 +1,9 @@
 import type { Currencies } from '@org/types';
 import { IsIn, IsString, IsNumber } from 'class-validator';
+import { CURRENCIES } from '../constants/currencies';
 
 export class BalanceCreateDto {
-  @IsIn([
-    'btc',
-    'eth',
-    'ton',
-    'ltc',
-    'not',
-    '1inch',
-    'neo',
-    'dogs',
-    'xrp',
-    'dot',
-    'bnb',
-    'qtum',
-    'chz',
-    'link',
-    'rvn',
-    'ada',
-    'avax',
-    'rune',
-    'vet',
-    'near',
-    'sol',
-    'usdt',
-  ])
+  @IsIn(CURRENCIES)
   currency: Currencies;
 
   @IsNumber({ message: 'amount should be a number' })

@@ -1,10 +1,12 @@
 import Slider from '@mui/material/Slider';
 import { PAIR_ORDER_TYPE } from '@org/constants';
+import { useTranslation } from 'react-i18next';
 
+import { PriceInput } from './PriceInput';
 import { MARKS } from '../../constants/marks';
 import { useBalanceHandler } from '../../hooks/useBalanceHandler';
 import { useTrade } from '../../hooks/useTrade';
-import { Input } from '../../share/ui/Input';
+import { TradeButton } from '../../share/ui/TradeButton';
 import { useAppSelector } from '../../store/trade/hooks';
 import { useGetBalanceQuery } from '../../store/trade/tradeApi';
 import { UserCurrencyBalance } from '../users/UserCurrencyBalance';
@@ -14,50 +16,41 @@ export const Sell: React.FC = () => {
 
   const { data: currencyAmount, isError } = useGetBalanceQuery(currency);
 
+  const { t } = useTranslation();
+
   const { amount, amountForSell, sliderValueHandler, changeClickedPrice } = useTrade(
     currencyAmount?.amount,
     PAIR_ORDER_TYPE.SELL,
   );
-  const { trade } = useBalanceHandler(amount, amountForSell);
+  const { onTrade } = useBalanceHandler(amount, amountForSell);
 
   return (
     <div className="w-full bg-[#181A20] p-3 rounded-lg">
       <div className="flex justify-between">
-        <span>Avlb</span>
+        <span>{t('trade_page.avlv')}</span>
         <div className="flex gap-2">
-          my balance <UserCurrencyBalance currency={currency} />
-        </div>
-      </div>
-      <div className="flex gap-3 w-full bg-[#555] items-center px-2">
-        <div>Price</div>
-
-        <Input
-          name="priceSell"
-          type="number"
-          id="price_field_sell"
-          value={clickPrice}
-          onChange={(e) => changeClickedPrice(e.target.value)}
-        />
-        <div className="">
-          <label htmlFor="">USDT</label>
+          {t('trade_page.balance')} <UserCurrencyBalance currency={currency} />
         </div>
       </div>
 
-      <div className="flex gap-3 w-full bg-[#555] items-center px-2 my-5">
-        <div className="">
-          <label htmlFor="amount_field_buy">Amount</label>
-        </div>
-        <Input
-          name="sellAmount"
-          type="number"
-          id="amount_field_sell"
-          value={amount}
-          disabled={true}
-        />
-        <div className="tradeBox__field-sufix">
-          <label htmlFor="amount_field_buy">{exchangeTo}</label>
-        </div>
-      </div>
+      <PriceInput
+        id="price_field_sell"
+        type="number"
+        title={t('trade_page.price')}
+        clickPrice={clickPrice}
+        coin={currency}
+        disabled={false}
+        handler={(value) => changeClickedPrice(value)}
+      />
+
+      <PriceInput
+        id="sellAmount"
+        type="number"
+        title={t('trade_page.price')}
+        clickPrice={amount}
+        coin={exchangeTo}
+        disabled={true}
+      />
 
       <Slider
         className="text-white"
@@ -71,14 +64,13 @@ export const Sell: React.FC = () => {
         }}
       />
 
-      <button
-        type="button"
+      <TradeButton
+        type={PAIR_ORDER_TYPE.SELL}
+        currency={currency}
         disabled={isError}
-        onClick={() => trade(PAIR_ORDER_TYPE.SELL)}
-        className={`bg-pink-500 w-full block ${isError ? 'opacity-25' : 'opacity-100'}`}
-      >
-        Sell ${currency}
-      </button>
+        handler={(type) => onTrade(type)}
+        label={t('trade_page.sell')}
+      />
     </div>
   );
 };

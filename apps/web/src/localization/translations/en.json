@@ -15,5 +15,19 @@
     "user_list": "Users list",
     "newest": "Newest",
     "oldest": "Oldest"
+  },
+  "trade_page": {
+    "avlv": "Available",
+    "balance": "My balance",
+    "price": "Price",
+    "amount": "Amount",
+    "total": "Total",
+    "pair": "Pair",
+    "type": "Type",
+    "status": "Status",
+    "date": "Date",
+    "buy": "Buy",
+    "sell": "Sell",
+    "loading": "Loading..."
   }
 }
