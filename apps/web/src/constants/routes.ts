@@ -3,4 +3,7 @@ export const ROUTES = {
   LOGIN: '/login',
   USERS: '/users',
   TRADE: '/trade',
+  TRADE_PAIR: '/trade/:pair',
+  BALANCE: '/balance',
+  ORDERS: '/orders',
 };

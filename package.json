@@ -107,6 +107,12 @@
     "typeorm": "^0.3.28"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,css,scss,md}": "prettier --write"
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,scss,md}": [
+      "prettier --write"
+    ]
   }
 }

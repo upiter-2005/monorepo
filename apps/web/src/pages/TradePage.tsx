@@ -13,6 +13,7 @@ import { PriceMoving } from '../components/trade/PriceMoving';
 import { Sell } from '../components/trade/Sell';
 import { useAppDispatch } from '../store/trade/hooks';
 import { setCurrency } from '../store/trade/slices/activePairSlice';
+import { DEFAULT_CURRENCY, DEFAULT_EXCHANGE } from '@org/constants';
 
 type Pair = {
   pair: string;
@@ -23,34 +24,28 @@ const Trade: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (pair) {
-      dispatch(
-        setCurrency({
-          currency: pair?.replace('usdt', '') as Currencies,
-          exchangeTo: 'usdt',
-        }),
-      );
-    } else {
-      dispatch(
-        setCurrency({
-          currency: 'btc',
-          exchangeTo: 'usdt',
-        }),
-      );
-    }
+    dispatch(
+      setCurrency(
+        pair
+          ? {
+              currency: pair?.replace(DEFAULT_EXCHANGE, '') as Currencies,
+              exchangeTo: DEFAULT_EXCHANGE,
+            }
+          : {
+              currency: DEFAULT_CURRENCY,
+              exchangeTo: DEFAULT_EXCHANGE,
+            },
+      ),
+    );
   }, [pair]);
 
   return (
     <>
       <div className="w-full max-w-[1430px] m-auto flex gap-4">
         <div className="w-[330px] flex flex-col">
-          <ul className="border border-[#e3e3e3] h-[340px] overflow-y-scroll bg-[#181A20] rounded-lg custom-scrollbar">
-            <AskList />
-          </ul>
+          <AskList />
           <PriceMoving />
-          <ul className="border border-[#e3e3e3] h-[340px] overflow-y-scroll bg-[#181A20] rounded-lg custom-scrollbar">
-            <BidList />
-          </ul>
+          <BidList />
         </div>
         <div className="flex-1 text-xs">
           <ChartWidget />
@@ -60,9 +55,7 @@ const Trade: React.FC = () => {
           </div>
         </div>
         <div className="w-[330px]">
-          <ul className="border border-[#e3e3e3]">
-            <CurrencyList />
-          </ul>
+          <CurrencyList />
         </div>
       </div>
 

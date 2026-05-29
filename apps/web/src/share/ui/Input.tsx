@@ -5,8 +5,8 @@ type InputType = {
   name: string;
   type: HTMLInputTypeAttribute;
   id?: string;
-  value: number | string;
-  disabled: true | false;
+  value: string;
+  disabled: boolean;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 

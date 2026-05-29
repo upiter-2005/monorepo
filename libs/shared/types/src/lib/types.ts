@@ -25,6 +25,8 @@ export type OrderType = typeof PAIR_ORDER_TYPE.BUY | typeof PAIR_ORDER_TYPE.SELL
 export type OrderStatus = typeof PAIR_ORDER_STATUS.PENDING | typeof PAIR_ORDER_STATUS.DONE;
 export type TradeType = typeof TRADE_TYPE.ASK | typeof TRADE_TYPE.BID;
 
+export type TradeListType = typeof TRADE_TYPE.ASK | typeof TRADE_TYPE.BID;
+
 export type CandlesColors = typeof PRICE_COLORS.RED | typeof PRICE_COLORS.GREEN;
 export type Pair = [string, string];
 

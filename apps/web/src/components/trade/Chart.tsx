@@ -15,16 +15,17 @@ export const ChartWidget: React.FC = () => {
   const dispatch = useAppDispatch();
   const [candles, setCandles] = useState<CandlesType[]>(DEFAULT_CANDLES);
 
-  const makeDataChart = async (): Promise<void> => {
+  const createChartCandles = async (): Promise<void> => {
     setCandles(DEFAULT_CANDLES);
-    const candles = await buildChart(currency, exchangeTo, chartInterval);
 
+    const candles = await buildChart(currency, exchangeTo, chartInterval);
     const buildCandlesData = createCandles(candles);
+
     setCandles(buildCandlesData);
   };
 
   useEffect(() => {
-    makeDataChart();
+    createChartCandles();
   }, [chartInterval, currency, exchangeTo]);
 
   return (

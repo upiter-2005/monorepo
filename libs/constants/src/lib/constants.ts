@@ -79,3 +79,5 @@ export const DEFAULT_CURRENCY = 'btc' as const;
 export const DEFAULT_EXCHANGE = 'usdt' as const;
 export const DEFAULT_INTERVAL = '1h' as const;
 export const DEFAULT_CLICKED_PRICE = '0' as const;
+export const ASK = 'ask' as const;
+export const BID = 'bid' as const;

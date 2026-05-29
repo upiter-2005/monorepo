@@ -3,7 +3,7 @@ import axios from 'axios';
 import { API_CANDLES_BINANCE, API_URL } from '../constants/apiUrls';
 import { getToken } from '../helpers/token';
 
-export const binanceApi = axios.create({
+export const binanceClient = axios.create({
   baseURL: API_CANDLES_BINANCE,
   withCredentials: false,
 });

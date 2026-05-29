@@ -14,10 +14,10 @@ export class BalanceService {
   async createBalance(payload: BalancePayload, userId: string): Promise<BalanceReturn> {
     const balance = await this.balanceRepository.findOneBy(userId, payload.currency);
 
-    if (!balance) {
-      return this.balanceRepository.create(payload, userId);
+    if (balance) {
+      return this.balanceRepository.updateBalance(payload, balance.id);
     }
 
-    return this.balanceRepository.updateBalance(payload, balance.id);
+    return this.balanceRepository.create(payload, userId);
   }
 }

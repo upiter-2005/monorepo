@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Pair } from '@org/types';
 
 import { connectSocket } from '../client/connectSocket';
-import { WS_URL } from '../constants/WsUrls';
+import { createWsUrl } from '../helpers/createWsUrl';
 import { formatPrice } from '../helpers/formatPrice';
 import { useAppSelector } from '../store/trade/hooks';
 
@@ -22,25 +22,22 @@ export function usePrices(): Props {
 
   const { currency, exchangeTo } = useAppSelector((state) => state.activePair);
 
+  const tradesSocketUrl = createWsUrl(currency, exchangeTo, '@depth20@1000ms');
+  const priceSocketUrl = createWsUrl(currency, exchangeTo, '@trade');
+
   useEffect(() => {
     setLoading(false);
 
-    const tradesSocket = connectSocket<{ asks: Pair[]; bids: Pair[] }>(
-      `${WS_URL}/${currency + exchangeTo}@depth20@1000ms`,
-      (data) => {
-        setAsks(data.asks);
-        setBids([...data.bids].reverse());
-        setLoading(true);
-      },
-    );
+    const tradesSocket = connectSocket<{ asks: Pair[]; bids: Pair[] }>(tradesSocketUrl, (data) => {
+      setAsks(data.asks);
+      setBids([...data.bids].reverse());
+      setLoading(true);
+    });
 
-    const priceSocket = connectSocket<{ p: string }>(
-      `${WS_URL}/${currency + exchangeTo}@trade`,
-      (data) => {
-        const roundPrice = formatPrice(data.p, 2);
-        setPricMoving(Number(roundPrice));
-      },
-    );
+    const priceSocket = connectSocket<{ p: string }>(priceSocketUrl, (data) => {
+      const roundPrice = formatPrice(data.p, 2);
+      setPricMoving(Number(roundPrice));
+    });
 
     return (): void => {
       tradesSocket.close();

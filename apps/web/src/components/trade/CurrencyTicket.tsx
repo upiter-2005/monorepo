@@ -29,11 +29,7 @@ export const CurrencyTicket: React.FC<CurrencyTicketProps> = ({ currency }) => {
   const checkMinusSign = (value: number): boolean => value.toString().includes('-');
 
   useEffect(() => {
-    if (checkMinusSign(priceChange)) {
-      setTextColor(PRICE_COLORS.RED);
-    } else {
-      setTextColor(PRICE_COLORS.GREEN);
-    }
+    setTextColor(checkMinusSign(priceChange) ? PRICE_COLORS.RED : PRICE_COLORS.GREEN);
   }, [priceChange]);
 
   return (

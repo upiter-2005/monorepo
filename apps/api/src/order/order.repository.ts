@@ -15,8 +15,8 @@ export class OrderRepository {
     return this.repository.find({ where: { user_id: userId } });
   }
 
-  async create(payload: OrderPayload): Promise<Order> {
-    const { userId, pair, price, amount, type, status, time } = payload;
+  async create(payload: OrderPayload, userId: string): Promise<Order> {
+    const { pair, price, amount, type, status, placedAt } = payload;
     const order = this.repository.create({
       user_id: userId,
       pair,
@@ -24,7 +24,7 @@ export class OrderRepository {
       amount,
       type,
       status,
-      time,
+      time: placedAt,
     });
 
     return this.repository.save(order);

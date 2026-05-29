@@ -9,6 +9,7 @@ import {
 import { createApi } from '@reduxjs/toolkit/query/react';
 
 import { baseQueryWithTokenSync } from '../../client/baseQueryWithTokenSync';
+import { ROUTES } from '../../constants/routes';
 
 export type BuyCryptoPayload = {
   pair: string;
@@ -38,7 +39,7 @@ export const tradeApi = createApi({
   endpoints: (builder) => ({
     getBalance: builder.query<BalanceItem, Currencies>({
       query: (currency) => ({
-        url: '/balance',
+        url: ROUTES.BALANCE,
         method: 'GET',
         params: {
           currency,
@@ -49,7 +50,7 @@ export const tradeApi = createApi({
 
     updateBalance: builder.mutation<BalanceItem, BalancePayload>({
       query: (body) => ({
-        url: '/balance',
+        url: ROUTES.BALANCE,
         method: 'POST',
         body,
       }),
@@ -58,7 +59,7 @@ export const tradeApi = createApi({
 
     getOrders: builder.query<OrderItemType[], void>({
       query: () => ({
-        url: '/orders',
+        url: ROUTES.ORDERS,
         method: 'GET',
       }),
       providesTags: ['Orders'],
@@ -66,7 +67,7 @@ export const tradeApi = createApi({
 
     makeOrder: builder.mutation<BuyCryptoResponse, OrderPayload>({
       query: (body) => ({
-        url: '/orders',
+        url: ROUTES.ORDERS,
         method: 'POST',
         body,
       }),

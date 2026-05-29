@@ -19,7 +19,6 @@ export class OrderController {
     @Body() payload: OrderCreateDto,
     @User('userId') userId: string,
   ): Promise<OrderCreateDto> {
-    const orderPayload = { ...payload, userId };
-    return this.orderService.createOrder(orderPayload);
+    return this.orderService.createOrder(payload, userId);
   }
 }

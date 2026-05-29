@@ -1,6 +1,6 @@
 import { CandlesPointsType } from '@org/types';
 
-import { binanceApi } from './client';
+import { binanceClient } from './client';
 import { createCandlesUrl } from '../helpers/createCandlesUrl';
 import { fillCandles } from '../helpers/fillCandles';
 
@@ -11,7 +11,7 @@ export const buildChart = async (
 ): Promise<CandlesPointsType[]> => {
   const chartUrl = createCandlesUrl(currency, exchangeTo, chartInterval);
 
-  const { data } = await binanceApi.get(chartUrl);
+  const { data } = await binanceClient.get(chartUrl);
 
   const parseData = fillCandles(data);
 

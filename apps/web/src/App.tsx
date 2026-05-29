@@ -18,7 +18,7 @@ function App(): JSX.Element {
         <Route path={ROUTES.HOME} element={<Home />} />
         <Route path={ROUTES.LOGIN} element={<Login />} />
         <Route path={ROUTES.USERS} element={<UsersPage />} />
-        <Route path={`${ROUTES.TRADE}/:pair`} element={<TradePage />} />
+        <Route path={ROUTES.TRADE_PAIR} element={<TradePage />} />
       </Routes>
     </div>
   );
