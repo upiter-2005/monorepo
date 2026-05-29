@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 
+import { DEFAULT_CURRENCY, DEFAULT_EXCHANGE } from '@org/constants';
 import { Currencies } from '@org/types';
 import { useParams } from 'react-router-dom';
 
@@ -13,7 +14,6 @@ import { PriceMoving } from '../components/trade/PriceMoving';
 import { Sell } from '../components/trade/Sell';
 import { useAppDispatch } from '../store/trade/hooks';
 import { setCurrency } from '../store/trade/slices/activePairSlice';
-import { DEFAULT_CURRENCY, DEFAULT_EXCHANGE } from '@org/constants';
 
 type Pair = {
   pair: string;
