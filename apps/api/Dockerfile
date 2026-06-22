@@ -1,6 +1,3 @@
-FROM node:20-alpine
+FROM node:22
 WORKDIR /app
-COPY . .
-RUN npm install
-EXPOSE 3000
-CMD ["npx", "nx", "serve", "api", "--host=0.0.0.0"]
+RUN corepack enable

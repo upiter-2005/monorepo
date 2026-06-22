@@ -4,6 +4,7 @@ import { UserRepository } from '../user/user.repository';
 import { ROLE } from '../constants/roles';
 import { LoginPayload, RegisterUser } from './auth.types';
 import { User } from '../user/user.entity';
+import { createDate } from '../helpers/createDate';
 
 @Injectable()
 export class AuthService {
@@ -15,7 +16,7 @@ export class AuthService {
   async login(payload: LoginPayload): Promise<User> {
     const { email, firstName } = payload;
     const user = await this.authRepository.findByEmail(email);
-    const lastLoginAt = new Date();
+    const lastLoginAt = createDate();
 
     if (!user) {
       return this.register(email, firstName, lastLoginAt);

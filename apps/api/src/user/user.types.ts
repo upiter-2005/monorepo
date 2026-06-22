@@ -6,3 +6,9 @@ export type UsersReturn = {
 };
 
 export type UserPayload = User;
+
+export type CurrentUserData = {
+  userId: string;
+  email: string;
+  role: string;
+};

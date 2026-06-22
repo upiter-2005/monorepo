@@ -72,7 +72,8 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@mui/material": "^7.3.9",
+    "@mui/icons-material": "^7.3.9",
+    "@mui/material": "^7.3.11",
     "@nestjs/common": "^11.0.0",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.0",
@@ -81,6 +82,8 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.0",
     "@react-oauth/google": "^0.13.4",
+    "@reduxjs/toolkit": "^2.11.2",
+    "apexcharts": "^5.11.0",
     "axios": "^1.15.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
@@ -93,8 +96,10 @@
     "passport-jwt": "^4.0.1",
     "pg": "^8.20.0",
     "react": "^19.0.0",
+    "react-apexcharts": "^2.1.0",
     "react-dom": "^19.0.0",
     "react-i18next": "^16.5.8",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.13.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.0",
@@ -102,6 +107,12 @@
     "typeorm": "^0.3.28"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,css,scss,md}": "prettier --write"
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,css,scss,md}": [
+      "prettier --write"
+    ]
   }
 }

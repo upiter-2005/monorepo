@@ -18,6 +18,16 @@ export const PAIR_ORDER_TYPE = {
   SELL: 'sell',
 } as const;
 
+export const PAIR_ORDER_STATUS = {
+  PENDING: 'pending',
+  DONE: 'done',
+} as const;
+
+export const TRADE_TYPE = {
+  ASK: 'ask',
+  BID: 'bid',
+} as const;
+
 export const STATUS: Record<string, number> = {
   OK: 200,
   REDIRECT: 302,
@@ -34,3 +44,40 @@ export const TOKEN_ERRORS = {
   JWT_ACCESS_NOT_DEFIND: 'JWT_ACCESS_SECRET is not defined',
   REFRESH_TOKEN_NOT_FOUND: 'Refresh token not found',
 } as const;
+
+export const CURRENCY_LIST = [
+  'btc',
+  'eth',
+  'ton',
+  'ltc',
+  'not',
+  '1inch',
+  'neo',
+  'dogs',
+  'xrp',
+  'dot',
+  'bnb',
+  'qtum',
+  'chz',
+  'link',
+  'rvn',
+  'ada',
+  'avax',
+  'rune',
+  'vet',
+  'near',
+  'sol',
+  'usdt',
+] as const;
+
+export const PRICE_COLORS = {
+  RED: 'text-[#ff6237]',
+  GREEN: 'text-[#4d934d]',
+} as const;
+
+export const DEFAULT_CURRENCY = 'btc' as const;
+export const DEFAULT_EXCHANGE = 'usdt' as const;
+export const DEFAULT_INTERVAL = '1h' as const;
+export const DEFAULT_CLICKED_PRICE = '0' as const;
+export const ASK = 'ask' as const;
+export const BID = 'bid' as const;

@@ -5,6 +5,7 @@ import { Params, Pagination } from '@org/types';
 import { UserCreateDto } from './user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersReturn } from './user.types';
+import { createDate } from '../helpers/createDate';
 
 @Injectable()
 export class UserRepository {
@@ -51,7 +52,7 @@ export class UserRepository {
       email,
       firstName,
       role,
-      lastLoginAt: new Date(),
+      lastLoginAt: createDate(),
     });
 
     return this.repository.save(user);
