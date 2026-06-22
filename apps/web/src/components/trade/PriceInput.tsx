@@ -6,7 +6,7 @@ type PriceInputProps = {
   id: string;
   type: HTMLInputTypeAttribute;
   title: string;
-  clickPrice: string | number;
+  clickPrice: string;
   coin: string;
   disabled?: boolean;
   handler?: (value: string) => void | undefined;

@@ -46,7 +46,7 @@ export const Buy: React.FC = () => {
         id="amount_field_buy"
         type="number"
         title={t('trade_page.amount')}
-        clickPrice={amount}
+        clickPrice={String(amount)}
         coin={currency}
       />
 

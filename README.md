@@ -88,6 +88,11 @@ nx format:write     # auto format code
 nx format:check     # check formatting
 ```
 
+```bash
+docker compose down -v // down with cache
+docker compose up --build
+```
+
 ---
 
 ## Database
